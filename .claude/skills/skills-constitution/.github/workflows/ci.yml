@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      SKILLS_DIR: ${{ github.event.inputs.skills_dir }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # v2.19.0:回归+对抗性测试套件真正接入 CI(此前只跑索引数据校验)
+      - name: Run regression & adversarial tests
+        run: python scripts/tests/run_tests.py
+
+      # 若显式传入 SKILLS_DIR 且目录存在，则重新生成索引并校验；
+      # 否则（GitHub runner 无本机技能目录）只校验已提交的索引文件。
+      - name: Rebuild skill tree (optional, only if SKILLS_DIR provided)
+        if: ${{ env.SKILLS_DIR != '' }}
+        run: |
+          if [ ! -d "$SKILLS_DIR" ]; then
+            echo "SKILLS_DIR set but not found: $SKILLS_DIR"
+            exit 1
+          fi
+          python scripts/build_skill_tree.py
+
+      - name: Validate committed skill tree index
+        run: |
+          python -m json.tool skill_tree.json > /dev/null
+          python -c "
+          import json
+          with open('skill_tree.json') as f:
+              tree = json.load(f)
+          assert tree['total'] > 0, 'skill_tree.json indexed 0 skills'
+          assert len(tree['categories']) > 0, 'No categories in index'
+          # 自洽校验：每个技能至少归入一个分类，故分类条数和应 >= total
+          # （此检查可拦截“total 与真实索引不一致”的手写数据问题）
+          cat_sum = sum(len(v) for v in tree['categories'].values())
+          assert cat_sum >= tree['total'], f'Index inconsistent: category sum ({cat_sum}) < total ({tree[\"total\"]})'
+          assert 'version' in tree and tree['version'], 'skill_tree.json missing version'
+          print(f'✓ Validated {tree[\"total\"]} skills across {len(tree[\"categories\"])} categories (cat_sum={cat_sum})')
+          "
+
+      - name: Validate SKILL.md frontmatter & version consistency
+        run: |
+          python -c "
+          import re, json
+          content = open('SKILL.md', encoding='utf-8').read()
+          m = re.search(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+          assert m, 'SKILL.md missing YAML frontmatter'
+          fm = m.group(1)
+          mv = re.search(r'^version:\s*(\S+)', fm, re.MULTILINE)
+          assert mv, 'SKILL.md frontmatter missing version'
+          tree = json.load(open('skill_tree.json'))
+          assert tree.get('version') == mv.group(1), \
+              f'version mismatch: SKILL.md={mv.group(1)} vs skill_tree.json={tree.get(\"version\")}'
+          print(f'✓ SKILL.md frontmatter OK (version {mv.group(1)} matches skill_tree.json)')
+          "
+
+      # v2.23.0: 技能图谱自洽校验（节点/边/簇计数一致 + 图谱版本与宪法同源）
+      - name: Validate committed skill graph index
+        run: |
+          python -c "
+          import json
+          g = json.load(open('skill_graph.json'))
+          assert g.get('node_count', 0) > 0, 'skill_graph.json indexed 0 nodes'
+          assert g.get('edge_count', 0) == len(g.get('edges', [])), 'edge_count != len(edges)'
+          assert all(e.get('kind') and e.get('evidence') for e in g['edges']), '每条边必须带类型与证据'
+          import re
+          mv = re.search(r'^version:\s*(\S+)', open('SKILL.md', encoding='utf-8').read(), re.MULTILINE)
+          assert g.get('version') == mv.group(1), f'图谱版本 {g.get(\"version\")} != 宪法 {mv.group(1)}'
+          print(f'✓ Validated skill graph: {g[\"node_count\"]} nodes / {g[\"edge_count\"]} edges / {len(g[\"clusters\"])} clusters')
+          "

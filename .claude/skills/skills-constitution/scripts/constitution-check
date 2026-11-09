@@ -1,0 +1,200 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""constitution-check —— Skills 宪法门禁校验主入口
+
+用法:
+  constitution-check --input output.txt                 # 全量软校验(默认:FAIL 只警告,不阻断)
+  constitution-check --input output.txt --strict        # 严格模式:FAIL 即阻断(exit 1)
+  constitution-check --step 5 --input output.txt        # 只跑 step5
+  constitution-check --input output.txt --json          # JSON 输出(机器可读)
+  constitution-check --simple                           # 简单任务豁免:按零号条款跳过门禁(exit 0)
+  constitution-check --reset                            # 清空状态文件
+
+原理:
+  - 5 个 step 各自独立校验(scripts/steps/stepN-check.py)
+  - 状态文件 .constitution-state.json 记录每步 PASS/FAIL
+  - 链式依赖:strict 模式下前置 step 未 PASS,后续 step 拒绝执行
+  - 零号条款:简单问答(翻译/润色/概念解释)不适用宪法,调用方应传 --simple 跳过
+"""
+import argparse
+import importlib.util
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lib import state as S
+from lib import text as T
+
+STEPS = [
+    ("step1", "三查汇报"),
+    ("step2", "技能树已读/无匹配声明"),
+    ("step3", "匹配技能调用"),
+    ("step4", "交付自检"),
+    ("step5", "推荐板块(GitHub 高星)"),
+]
+
+
+def load_check(name):
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "steps", f"{name}-check.py")
+    spec = importlib.util.spec_from_file_location(f"step_mod_{name}", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.check
+
+
+def main():
+    ap = argparse.ArgumentParser(description="Skills 宪法门禁校验")
+    ap.add_argument("--strict", action="store_true", help="严格模式:FAIL 即阻断(exit 1)")
+    ap.add_argument("--step", type=int, choices=range(1, 6), help="只跑指定 step(1-5)")
+    ap.add_argument("--input", help="输入文本文件(缺省读 stdin)")
+    ap.add_argument("--state", help="状态文件路径(默认 .constitution-state.json)")
+    ap.add_argument("--memory", help="MEMORY.md 路径(默认 ~/.workbuddy/MEMORY.md)")
+    ap.add_argument("--tree", help="skill_tree.json 路径(默认 scripts/../skill_tree.json)")
+    ap.add_argument("--reset", action="store_true", help="清空状态文件")
+    ap.add_argument("--json", action="store_true", help="JSON 输出")
+    ap.add_argument("--simple", action="store_true", help="简单任务豁免:按零号条款跳过门禁(exit 0)")
+    ap.add_argument("--task", help="任务描述(v2.11.0:含代码/git/部署关键词时,输出必须引用对应分类技能)")
+    ap.add_argument("--pre-hook", action="store_true",
+                    help="先执行 pre-hook 输入拦截(校验开场是否已注入,未注入即阻断)")
+    ap.add_argument("--classify", action="store_true",
+                    help="双通道分流:按零号条款自动判定任务类型(简单→通道A跳过;专业→通道B强制)")
+    a = ap.parse_args()
+
+    # 设置默认路径
+    if not a.memory:
+        a.memory = os.path.expanduser("~/.workbuddy/MEMORY.md")
+    if not a.tree:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        constitution_dir = os.path.dirname(script_dir)
+        a.tree = os.path.join(constitution_dir, "skill_tree.json")
+
+    if a.simple:
+        print("[SKIP] 简单任务,按零号条款跳过宪法门禁")
+        return 0
+
+    if a.reset:
+        S.reset(a.state)
+        print("状态文件已重置")
+        return 0
+
+    text = T.read_input(a.input)
+    if not text.strip():
+        print("错误:无输入文本,请用 --input <file> 或管道输入", file=sys.stderr)
+        return 2
+
+    results = []
+    lines = []
+    blocked = False
+
+    # ---- 双通道分流（零号条款） ----
+    if a.classify:
+        import importlib.util as _ilu
+        pre_hook_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pre-hook.py")
+        spec = _ilu.spec_from_file_location("pre_hook_mod", pre_hook_path)
+        ph = _ilu.module_from_spec(spec)
+        spec.loader.exec_module(ph)
+
+        task_type = ph.classify_task(text)
+        if task_type == "simple":
+            # 通道A：简单任务 → 零号条款豁免，完全跳过门禁（不再跑 step1-5）
+            results.append({"step": "classify", "desc": "双通道分流", "level": "SKIP",
+                            "message": "通道A:简单任务,零号条款豁免,直接通用能力"})
+            lines.append("[SKIP] classify - 双通道分流: 通道A(简单) → 跳过门禁")
+            S.set_step("classify", True, "简单任务豁免", "SKIP", a.state)
+            if a.json:
+                print(json.dumps({"blocked": False, "results": results},
+                                 ensure_ascii=False, indent=2))
+            else:
+                for line in lines:
+                    print(line)
+                print("[SKIP] 简单任务已豁免，无需三查汇报（零号条款）")
+            return 0
+        else:
+            # 通道B：专业/模糊任务 → 强制 pre-hook 注入检查
+            ph_ok, ph_msg = ph.check_injection(text, a.memory, a.tree, a.task)
+            level = "PASS" if ph_ok else "BLOCKED"
+            ch_label = "专业" if task_type == "professional" else "模糊(按专业)"
+            results.append({"step": "classify", "desc": "双通道分流", "level": level,
+                            "message": f"通道B:{ch_label}任务,pre-hook注入检查: {ph_msg}"})
+            lines.append(f"[{level}] classify - 双通道分流: 通道B({ch_label}) → {ph_msg}")
+            S.set_step("classify", ph_ok, ph_msg, level, a.state)
+            if not ph_ok:
+                blocked = True
+                # 未注入 → 阻断，不执行后续步骤
+                if a.json:
+                    print(json.dumps({"blocked": blocked, "results": results},
+                                     ensure_ascii=False, indent=2))
+                else:
+                    for line in lines:
+                        print(line)
+                return 1 if a.strict else 0
+
+        # 分类已分流，不再走普通 pre-hook 分支
+        a.pre_hook = False
+
+    # ---- Pre-hook 输入拦截（任务开始前） ----
+    if a.pre_hook:
+        import importlib.util as _ilu
+        pre_hook_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pre-hook.py")
+        spec = _ilu.spec_from_file_location("pre_hook_mod", pre_hook_path)
+        ph = _ilu.module_from_spec(spec)
+        spec.loader.exec_module(ph)
+        ph_ok, ph_msg = ph.check_injection(text, a.memory, a.tree, a.task)
+        level = "PASS" if ph_ok else "BLOCKED"
+        results.append({"step": "pre-hook", "desc": "输入拦截", "level": level,
+                        "message": f"{ph_msg}" + ("" if ph_ok else " → 任务开始前被拦截")})
+        lines.append(f"[{level}] pre-hook - 输入拦截: {ph_msg}")
+        S.set_step("pre-hook", ph_ok, ph_msg, level, a.state)
+        if not ph_ok:
+            blocked = True
+            if a.json:
+                print(json.dumps({"blocked": blocked, "results": results},
+                                 ensure_ascii=False, indent=2))
+            else:
+                for line in lines:
+                    print(line)
+            return 1 if a.strict else 0
+
+    for name, desc in STEPS:
+        if a.step is not None and int(a.step) != int(name[-1]):
+            continue
+
+        ok, prev = S.previous_passed(name, a.state)
+        if not ok and prev:
+            if a.strict:
+                msg = f"前置 {prev} 未通过,严格模式阻断 {name}"
+                results.append({"step": name, "desc": desc, "level": "BLOCKED", "message": msg})
+                lines.append(f"[BLOCKED] {name} - {desc}: {msg}")
+                blocked = True
+                break
+            lines.append(f"[WARN] 前置 {prev} 未通过(软模式继续,建议先修复)")
+
+        check_fn = load_check(name)
+        # 根据 step 名称传递额外参数(v2.11.0: step1/2/3 增加 task 任务相关校验)
+        if name == "step1":
+            passed, msg, level = check_fn(text, a.memory, a.tree, a.task)
+        elif name in ("step2", "step3"):
+            passed, msg, level = check_fn(text, a.tree, a.task)
+        else:
+            passed, msg, level = check_fn(text)
+        S.set_step(name, passed, msg, level, a.state)
+        results.append({"step": name, "desc": desc, "level": level, "message": msg})
+        lines.append(f"[{level}] {name} - {desc}: {msg}")
+
+        if a.strict and not passed and level == "FAIL":
+            blocked = True
+            break
+
+    if a.json:
+        print(json.dumps({"blocked": blocked, "results": results}, ensure_ascii=False, indent=2))
+    else:
+        for line in lines:
+            print(line)
+    if a.strict and blocked:
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,1291 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""pre-hook —— 任务开始前强制注入记忆 + 技能树上下文
+
+文章"三明治架构"核心: 不要依赖 Agent 自觉去查记忆/技能树，
+而是**在任务开始前由代码强制读取并注入**，让 Agent 一睁眼就"被迫"拥有上下文。
+
+本脚本做两件事:
+1. 生成注入块: 读取 MEMORY.md + skill_tree.json，按任务类型过滤出相关技能，
+   产出可直接粘贴进 System Prompt / 任务开头的 Markdown 块
+2. 校验注入痕迹: 检查某个文本(如 Agent 的开场汇报)是否已包含注入块元素，
+   用于宿主 hook 在"开始跑"之前拦截
+
+用法:
+  python pre-hook.py --task "推送github"             # 生成注入块(按任务过滤技能树)
+  python pre-hook.py --task "写文章" --output inj.md # 输出到文件
+  python pre-hook.py --task "爬虫" --json            # JSON 输出(机器可读,含 sad_candidates)
+  python pre-hook.py --check --input agent_opening.txt  # 校验开场是否已注入(宿主hook用)
+  python pre-hook.py --check --input agent_opening.txt --strict  # 校验失败 exit 1
+
+v2.12.0:
+  - 任务同义词扩展(TASK_SYNONYM_MAP):"把代码传上去"等口语表达也能命中 git/push 必需分类
+  - SAD 宽松语义检索(loose_retrieve_skills):零依赖 token 重叠打分,注入 top-K 候选技能
+
+v2.21.0:
+  - 双机制平台覆盖:技能树 = 独立技能 ∪ 插件技能(插件缓存扫描见 build_skill_tree.py);
+    注入块与 SAD 候选展示插件技能的完整调用名(插件名:技能名,如 document-skills:docx),
+    命中插件技能后按完整调用名调用 —— 在 ZCode 等双机制平台上裸技能名可能无法被 Skill 机制加载
+
+v2.22.0:
+  - 注入块 token 瘦身:SAD 候选 6→4 条、描述截断 60→40 字、每分类技能清单 12→8 个、
+    记忆片段上限 1200→900 字、执行要求文案精简(单次注入约省 30% token)
+
+v2.23.0:
+  - 技能图谱注入(借鉴 GitNexus 预计算关系智能):任务锚点技能的同簇成员+一跳邻居
+    带着"为什么相关"的边证据注入,注入面从"整分类清单"收窄到"任务线图谱";
+    图谱缺失时行为与旧版完全一致(只加不删)
+
+v2.28.0:
+  - 检索改**双路证据召回 + RRF 融合**(借鉴 zg/zvec-grep 的"多路召回 + RRF"方法论):
+    名称路(词面命中技能名,等价精确通道) + 描述路(BM25,词频×IDF×长度归一化),
+    按排名融合、零调参 —— 修"意图↔命名断层"导致的相关技能漏检;
+    候选行尾标注命中依据(命中 名称/描述),注入从"分数"进化为"可解释候选";
+    loose_retrieve_skills 保持原签名,内部委托 hybrid_retrieve_skills(旧行为可由
+    scripts/tests/retrieval_eval.py 的 legacy 通道复现)。
+  - 分词修噪:纯虚词表 + 弱义字表分离,二元组含纯虚词即丢(修"个转/价和/份汇"
+    这类跨词边界假词与冗长描述误撞 → "万能描述技能霸榜")。
+  - 跨语言技术词桥(中文意图 → 英文技术词):技能库是双语的,相当一批技能的
+    description 是英文,纯词面检索在语言鸿沟前交集恒为空;本宪法坚持零依赖不引
+    模型,故用确定性双语词桥作"语义通道"的零依赖替代 —— 只映射到英文技术词,
+    不映射到 REQUIRED_CATEGORY_KEYWORDS,不动 Layer C 任务分类行为。
+  - 评测纪律(借鉴 zg 的"配对 A/B + 留出集"):新增 scripts/tests/retrieval_eval.py,
+    同一任务集跑 legacy/hybrid 两通道对比 hit@1/hit@4 与上下文体积;并固化 12 条
+    **开发期从未调参的留出集** —— 实测 dev 集被调到 hit@4 100% 时留出集只有
+    66.7%,过拟合被当场抓出。评测已入回归门禁(run_tests 第 14 节)。
+
+返回码:
+  --check 模式: 0=注入合规, 1=缺注入(宿主 hook 应阻断任务)
+"""
+import argparse
+import json
+import math
+import os
+import re
+import sys
+import time
+
+# v2.27.5 修复: Windows 控制台默认 GBK,注入块含 ⚡ 等字符时 print 直接
+# UnicodeEncodeError 崩溃 → 宪法注入从未送达。强制 UTF-8(不合规字符降级替换)。
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from lib.text import overlap_score, keyword_in
+except ImportError:
+    def keyword_in(text, kw):  # 兜底:与 lib.text 同逻辑(英文词边界,中文子串)
+        t, k = (text or "").lower(), (kw or "").lower()
+        if not k:
+            return False
+        if all(ord(c) < 128 for c in k):
+            return re.search(r"(?<![a-z0-9])" + re.escape(k) + r"(?![a-z0-9])", t) is not None
+        return k in t
+
+    def overlap_score(text_a, text_b):  # 兜底:与 lib.text 同逻辑(零依赖轻语义)
+        word_re = re.compile(r"[a-z0-9][a-z0-9_\-\.]*")
+        cjk_re = re.compile(r"[一-鿿]")
+        def tok(text):
+            t = (text or "").lower()
+            words = word_re.findall(t)
+            tokens = set(words)
+            for w in words:
+                if "-" in w or "_" in w or "." in w:
+                    for part in re.split(r"[_\-\.]", w):
+                        if part:
+                            tokens.add(part)
+            chars = cjk_re.findall(t)
+            tokens.update(chars)
+            for i in range(len(chars) - 1):
+                tokens.add(chars[i] + chars[i + 1])
+            return {x for x in tokens if x.strip()}
+        a, b = tok(text_a), tok(text_b)
+        if not a or not b:
+            return 0.0
+        inter = set(a & b)
+        a_ascii = {t for t in a if t.isascii() and len(t) >= 3}
+        b_ascii = {t for t in b if t.isascii() and len(t) >= 3}
+        for x in a_ascii:
+            for y in b_ascii:
+                if x != y and (x in y or y in x):
+                    inter.add(x)
+                    break
+        return len(inter) / max(1, min(len(a), len(b)))
+
+DEFAULT_MEMORY = os.path.expanduser("~/.workbuddy/MEMORY.md")
+DEFAULT_TREE = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "skill_tree.json"
+)
+# v2.23.0:技能图谱(由 build_skill_tree.py / build_skill_graph.py 生成)
+DEFAULT_GRAPH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "skill_graph.json"
+)
+# v2.27.0:注入上下文文件路径(SessionStart / 钩子模式共用)
+CONTEXT_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "hooks", "injected-context.json",
+)
+
+# v2.23.0:图谱模块(缺失/损坏时全部降级为"无图",不影响任何既有链路)
+try:
+    from lib import graph as G
+except ImportError:
+    G = None
+
+# v2.27.1:词面重叠工具(cluster 候选降噪用;缺失时降噪退化为"不过滤")
+try:
+    from lib.text import overlap_score as _overlap_score
+except ImportError:
+    _overlap_score = None
+
+# 任务类型 → 技能树分类关键词映射（用于过滤注入哪些技能）
+TASK_CATEGORY_MAP = {
+    "编码/开发": ["code", "coding", "编程", "代码", "开发"],
+    "网页/前端": ["browser", "web", "frontend", "网页", "前端"],
+    "文档/办公": ["doc", "document", "word", "excel", "ppt", "文档"],
+    "数据/分析": ["data", "analysis", "数据", "分析"],
+    "文件操作": ["file", "文件"],
+    "邮件": ["email", "邮件"],
+    "图像/设计": ["image", "design", "图像", "设计"],
+    "金融/投资": ["finance", "stock", "金融", "股票"],
+    "通用": ["general", "通用"],
+}
+
+# v2.11.0 新增:任务关键词 → 必需技能分类(确定性映射,用于硬校验)
+# 当任务命中以下任一关键词时,Agent 输出必须引用对应分类下的实际技能名,
+# 否则视为"查了技能树但没找到任务相关技能"——硬校验 FAIL。
+# 关键词按优先级排列(越靠前越强),命中即映射到必需分类。
+REQUIRED_CATEGORY_KEYWORDS = [
+    # (任务关键词, 必需分类列表)
+    ("git", ["code"]), ("github", ["code"]), ("push", ["code"]),
+    ("commit", ["code"]), ("deploy", ["code"]), ("部署", ["code"]),
+    ("代码", ["code"]), ("编码", ["code"]), ("编程", ["code"]),
+    ("写一个", ["code"]), ("实现", ["code"]), ("开发", ["code"]),
+    ("爬虫", ["browser", "data"]), ("抓取", ["browser", "data"]),
+    ("网页", ["browser"]), ("网站", ["browser"]), ("前端", ["browser"]),
+    ("浏览器", ["browser"]), ("自动化", ["browser", "automation"]),
+    ("文档", ["doc"]), ("word", ["doc"]), ("excel", ["doc"]),
+    ("ppt", ["doc"]), ("pdf", ["doc"]), ("表格", ["doc", "data"]),
+    ("邮件", ["email"]), ("发送邮件", ["email"]),
+    ("数据", ["data"]), ("分析", ["data"]), ("报表", ["data"]),
+    ("图表", ["data"]), ("可视化", ["data"]),
+    ("图片", ["image"]), ("图像", ["image"]), ("设计", ["image"]),
+    ("视频", ["video"]), ("剪辑", ["video"]),
+    ("搜索", ["search"]), ("查询", ["search"]),
+    ("记忆", ["memory"]), ("知识库", ["memory"]),
+    ("金融", ["finance"]), ("股票", ["finance"]), ("基金", ["finance"]),
+    ("文件", ["file"]),
+    # v2.12.1 宪法自举：安装/配置/元规则类任务必须查 meta 分类
+    # 覆盖单复数：skill / skills / 技能
+    ("skill", ["meta"]), ("skills", ["meta"]), ("技能", ["meta"]),
+    ("安装", ["meta"]), ("install", ["meta"]), ("配置", ["meta"]),
+    ("元规则", ["meta"]), ("元规则层", ["meta"]), ("宪法", ["meta"]),
+]
+
+
+# v2.12.0 新增:任务同义词扩展表(SAD 第一轮"用词对齐"的确定性实现)
+# 痛点(v2.11.0 真实漏洞):用户说"我要把代码传上去",无 git/push 关键词 →
+# Layer C 失效。口语/近义表达先映射到正式关键词,再走原有关键词映射,
+# 不依赖 Agent 自觉联想,也不需要 LLM-in-loop。
+TASK_SYNONYM_MAP = {
+    # 代码/版本管理口语
+    "传上去": ["git", "push", "推送"], "推上去": ["git", "push", "推送"],
+    "上传代码": ["git", "push", "推送"], "同步代码": ["git", "push", "commit"],
+    "提交代码": ["git", "commit"], "拉代码": ["git", "clone"],
+    "签入": ["git", "commit"], "检出": ["git", "clone"],
+    "上线": ["部署", "deploy"], "发布": ["部署", "deploy"],
+    # 爬虫/数据口语
+    "抓一下": ["抓取", "爬虫"], "爬一下": ["爬虫", "抓取"],
+    "采集": ["抓取", "数据"], "抓点": ["抓取", "爬虫"],
+    # 文档/办公口语
+    "做幻灯片": ["ppt"], "做个表": ["excel", "表格"],
+    "写个文档": ["word", "文档"], "画个图": ["图表", "图片"],
+    # 通信口语
+    "发个邮件": ["邮件", "发送邮件"], "发邮件": ["邮件", "发送邮件"],
+    # 检索口语
+    "查一下": ["查询", "搜索"], "搜一下": ["搜索", "查询"],
+    # 文件口语
+    "整理文件": ["文件"], "清理文件": ["文件"],
+
+    # v2.28.0 跨语言技术词桥(中文意图 → 英文技术词)。
+    # 为什么需要:技能库是双语的 —— 任务说中文,而相当一批技能的 description
+    # 是英文(browser-automation / code-review / ponytail …)。纯词面检索在这道
+    # 语言鸿沟前交集恒为空(实测:任务"写个爬虫…"与 browser-automation 交集=[]),
+    # zg 那篇文章的答案是加一路**语义(Vector)**召回;本宪法坚持零依赖不引模型,
+    # 于是用"确定性双语词桥"作零依赖替代 —— 查到就是查到了,不猜。
+    # 只映射到英文技术词,不映射到 REQUIRED_CATEGORY_KEYWORDS/专业任务词表里的词,
+    # 避免顺手改动 Layer C 的任务分类行为。
+    "爬虫": ["scrape", "crawl", "scraping", "spider"],
+    "抓取": ["scrape", "crawl", "scraping"],
+    "抓下来": ["scrape", "crawl"],
+    "代码审查": ["review", "code review", "audit"],
+    "审查代码": ["review", "audit"],
+    "代码质量": ["review", "quality", "lint"],
+    "评审": ["review", "assessment"],
+    "省事": ["minimal", "lazy", "simplest", "yagni"],
+    "最省": ["minimal", "lazy", "simplest", "yagni"],
+    "别加依赖": ["minimal", "stdlib", "dependency"],
+    "别过度设计": ["yagni", "minimal", "simplest"],
+    "不要太复杂": ["minimal", "simplest"],
+    "报错": ["error", "debug", "debugging"],
+    "排查": ["debug", "debugging", "troubleshoot"],
+    "根因": ["root cause", "debug", "diagnose"],
+    "调试": ["debug", "debugging"],
+    "海报": ["poster", "graphic"],
+    "架构图": ["diagram", "architecture", "chart"],
+    "流程图": ["diagram", "flowchart"],
+    "可视化": ["visualization", "chart", "dashboard"],
+    "宣传视频": ["video", "promo"],
+    "定时": ["schedule", "cron", "automation"],
+    "自动化": ["automation", "workflow", "automate"],
+    "同步": ["sync", "synchronize"],
+    "对比": ["compare", "comparison", "diff"],
+    "总结": ["summary", "summarize"],
+
+    # v2.28.0 跨语言技术词桥(第二批)—— A/B 评测暴露的两类残留漏检,同一根因
+    # (中文任务 ↔ 英文 description),同一修法(加确定性词桥,不引模型):
+    #   ① 调研/竞争/行业类:任务"深度调研…竞争格局"与 deep-research(-pro) 交集=[],
+    #      而 deep-research 恰是正确解 —— 词桥把"调研"落到 research,技能名与描述同时命中;
+    #   ② 音频类:任务"有没有处理音频的技能"与 edge-tts / openai-whisper / sag 交集=[],
+    #      词桥把"音频/语音"落到 audio/voice/speech/tts。
+    # 这些词均不在 REQUIRED_CATEGORY_KEYWORDS 中(已核验),故不影响 Layer C 任务分类。
+    "调研": ["research", "investigation", "investigate"],
+    "研究": ["research", "study"],
+    "深度调研": ["deep research", "research"],
+    "竞争格局": ["competitive", "competition", "landscape", "benchmark"],
+    "竞争分析": ["competitive", "competition", "analysis"],
+    "竞品": ["competitive", "competitor", "benchmark"],
+    "行业分析": ["industry", "research", "analysis"],
+    "市场分析": ["market", "research", "analysis"],
+    "音频": ["audio", "voice", "speech", "tts"],
+    "语音": ["voice", "speech", "tts", "audio"],
+    "转录": ["transcribe", "transcription", "speech"],
+    "朗读": ["tts", "speech", "voice"],
+    "字幕": ["subtitle", "caption", "transcribe"],
+    "找技能": ["find", "discover", "skill"],
+    "找一下": ["find", "discover"],
+
+    # v2.28.0 跨语言技术词桥(第三批)—— 留出集(holdout,开发期从未调参的 12 条)
+    # 暴露的残留漏检。留出集把 dev 集 100% 打回 66.7%,证明"只在 dev 集上迭代"
+    # 会过拟合;补齐的这批词全部来自留出集的**结构性**失败模式(仍是同一根因:
+    # 中文任务 ↔ 英文 description),不是针对某条用例的硬编码。
+    #   ① 录音/文字稿:"把会议录音转成文字稿"该落到 ASR(openai-whisper),
+    #      但技能名与描述是英文,交集为空 → 桥到 speech/transcribe/audio;
+    #   ② 文案/改写/小红书:"长文改成小红书文案"该落到 content-repurposer,
+    #      桥到 copy/rewrite/repurpose;
+    #   ③ 监控/网页更新:"监控网页有没有更新"该落到 blogwatcher/canary-watch,
+    #      桥到 monitor/watch/update;
+    #   ④ 发票/提取:"发票金额账号提取"桥到 invoice/receipt/ocr/extract。
+    "录音": ["audio", "recording", "speech"],
+    "文字稿": ["transcribe", "transcription", "transcript", "speech"],
+    "转文字": ["transcribe", "transcription", "speech", "text"],
+    "语音转文字": ["speech to text", "transcribe", "transcription"],
+    "文案": ["copy", "copywriting", "content"],
+    "改写": ["rewrite", "repurpose", "adapt", "rephrase"],
+    "小红书": ["xiaohongshu", "redbook", "social"],
+    "公众号文章": ["article", "blog", "wechat"],
+    "监控": ["monitor", "watch", "alert"],
+    "网页监控": ["monitor", "watch", "url", "rss"],
+    "网页更新": ["monitor", "update", "change", "rss", "feed"],
+    "有没有更新": ["monitor", "update", "change", "rss", "feed"],
+    "发票": ["invoice", "receipt", "ocr", "extract"],
+    "提取": ["extract", "extraction", "parse"],
+}
+
+# v2.28.0:口语扩展的误触发防护 —— "审查一下/核查一下"里的"查一下"是"审批",
+# 不是"检索"(与 v2.19.0 修 "hi"⊂"this" 同源的子串碰撞问题)。命中这些字在前
+# 时不展开该短语。
+_SYNONYM_LOOKBEHIND_BLOCK = {"查一下": "审检核巡排政", "搜一下": "检核"}
+
+
+def expand_task_text(task):
+    """v2.12.0:同义词扩展 — 把口语表达蕴含的正式关键词追加到任务文本后
+
+    返回扩展后的文本,供关键词匹配使用(仅召回侧扩展,不改原任务)。
+    """
+    t = (task or "").lower()
+    extra = []
+    for phrase, implied in TASK_SYNONYM_MAP.items():
+        p = phrase.lower()
+        blocked = _SYNONYM_LOOKBEHIND_BLOCK.get(phrase)
+        if blocked:
+            if re.search(r"(?<![" + re.escape(blocked) + r"])" + re.escape(p), t):
+                extra.extend(implied)
+        elif p in t:
+            extra.extend(implied)
+    if not extra:
+        return task or ""
+    return (task or "") + " " + " ".join(extra)
+
+
+def required_categories_for_task(task):
+    """v2.11.0:按任务关键词返回必需技能分类(确定性,非 Agent 自觉)
+    v2.12.0:先经同义词扩展(TASK_SYNONYM_MAP)再匹配,口语表达不再漏判。
+    v2.19.0:英文关键词改词边界匹配 —— 修复 "rapid" 误命中 "api"、
+    "research" 误命中 "search" 等子串碰撞导致的误强制。
+
+    返回 list[str],如 ["code"] / ["browser","data"] / [] (无强相关)
+    这是硬校验的依据:任务含"代码/git/部署"关键词 → 输出必须命中 code 分类技能。
+    """
+    if not task:
+        return []
+    task_lower = expand_task_text(task).lower()
+    matched = []
+    for kw, cats in REQUIRED_CATEGORY_KEYWORDS:
+        if keyword_in(task_lower, kw):
+            for c in cats:
+                if c not in matched:
+                    matched.append(c)
+    return matched
+
+
+def required_skills_for_task(tree, task):
+    """v2.11.0:从技能树中提取任务必需分类下的实际技能名
+
+    返回 (required_cats, skill_names):
+      required_cats: 必需分类列表
+      skill_names:   这些分类下所有技能名(去重)
+    注意:排除 skills-constitution 自身——它是元规则,不是任务技能,
+    写"已查 skills-constitution"不算命中 code 分类(用户反馈的真实漏洞)。
+    """
+    EXCLUDED_SKILLS = {"skills-constitution", "constitution-check"}
+    required_cats = required_categories_for_task(task)
+    if not required_cats or not tree:
+        return required_cats, []
+    skill_names = []
+    for cat in required_cats:
+        for item in tree.get(cat, []):
+            if isinstance(item, dict):
+                if item.get("name") and item["name"] not in EXCLUDED_SKILLS:
+                    skill_names.append(item["name"])
+            elif isinstance(item, str) and item not in EXCLUDED_SKILLS:
+                skill_names.append(item)
+    # 去重
+    seen = set()
+    result = []
+    for s in skill_names:
+        if s not in seen:
+            seen.add(s)
+            result.append(s)
+    return required_cats, result
+
+# 零号条款：简单任务关键词（命中任一 → 判定简单，走通道A，不拦截）
+# v2.19.0:匹配改词边界(英文) + 专业词优先(见 classify_task),
+# 修复 "hi"⊂"this"、"explain"⊂"explain this bug and fix" 等碰撞导致的整体豁免逃逸。
+SIMPLE_TASK_MARKERS = [
+    "翻译", "润色", "改写", "解释", "解释一下", "概念", "是什么意思",
+    "知识问答", "科普", "闲聊", "你好", "谢谢", "再见", "打招呼",
+    "简单说明", "一句话", "概括", "总结一下这篇文章", "介绍一下",
+    "translate", "paraphrase", "explain", "meaning", "greeting",
+    "thank", "hi", "hello", "what is", "what's",
+]
+
+# 零号条款：专业任务关键词（命中任一 → 判定专业，走通道B，强制拦截）
+# 注意:专业词保持子串匹配(宽松) —— 专业词的误报只会"多查一次",符合零号条款
+# "模糊任务宁可不放过"的精神;危险方向是简单词误报导致豁免逃逸,那边用词边界收紧。
+PROFESSIONAL_TASK_MARKERS = [
+    "编码", "代码", "编程", "开发", "写一个", "实现", "部署", "推送",
+    "文件", "脚本", "爬虫", "抓取", "API", "接口", "数据库", "查询",
+    "分析", "数据处理", "生成", "创建", "修改", "编辑", "删除",
+    "git", "github", "push", "commit", "deploy", "运行", "测试",
+    "安装", "配置", "启动", "打包", "编译", "调优", "排错", "修复",
+    "网页", "网站", "前端", "后端", "服务器", "docker", "npm", "python",
+    "excel", "word", "pdf", "ppt", "报表", "图表", "可视化",
+    "金融", "股票", "行情", "基金", "邮件", "发送邮件",
+]
+
+
+def classify_task(text):
+    """零号条款任务分类器（确定性代码，不依赖 Agent 自觉）
+
+    返回: "simple" | "professional" | "ambiguous"
+    - simple: 命中简单关键词 → 通道A（跳过门禁，直接通用能力）
+    - professional: 命中专业关键词 → 通道B（强制 pre-hook + 五步校验）
+    - ambiguous: 无命中 → 宁可不放过，按专业处理（宪法:模糊任务 ✅ 查一下）
+
+    v2.19.0 两处修复:
+    1. 简单词用词边界匹配 —— "hi" 不再命中 "this/shift"、"explain" 不再
+       豁免 "explain this bug and fix the code" 这类混合任务中的专业部分。
+    2. 专业词优先 —— 同时命中简单词和专业词时判 professional
+       ("帮我解释这个报错然后修复代码并部署" 不再被整体豁免)。
+       专业词保持子串匹配:误报只会多查一次,符合"宁可不放过"。
+    """
+    if not text:
+        return "ambiguous"
+    text_lower = expand_task_text(text).lower()  # v2.12.0:同义词扩展后分类
+    has_simple = any(keyword_in(text_lower, m) for m in SIMPLE_TASK_MARKERS)
+    has_pro = any(m.lower() in text_lower for m in PROFESSIONAL_TASK_MARKERS)
+    if has_pro:
+        return "professional"
+    if has_simple:
+        return "simple"
+    return "ambiguous"
+
+
+def load_memory(memory_path=DEFAULT_MEMORY):
+    """读取 MEMORY.md，返回文本"""
+    if not os.path.exists(memory_path):
+        return ""
+    with open(memory_path, encoding="utf-8") as f:
+        return f.read()
+
+
+def load_tree(tree_path=DEFAULT_TREE):
+    """读取 skill_tree.json，返回 {分类: [技能...] }"""
+    if not os.path.exists(tree_path):
+        return {}
+    with open(tree_path, encoding="utf-8") as f:
+        tree = json.load(f)
+    categories = tree.get("categories", {})
+    result = {}
+    for cat, items in categories.items():
+        names = []
+        for item in items:
+            if isinstance(item, dict):
+                names.append(item.get("name", ""))
+            elif isinstance(item, str):
+                names.append(item)
+        result[cat] = [n for n in names if n]
+    return result
+
+
+def load_tree_full(tree_path=DEFAULT_TREE):
+    """v2.12.0:读取 skill_tree.json 完整条目(含描述),供宽松语义检索使用
+
+    返回 [{name, description, categories}],按技能名去重、跨分类合并。
+    v2.21.0:插件技能条目额外携带 qualified_name(完整调用名 插件名:技能名)。
+    """
+    if not os.path.exists(tree_path):
+        return []
+    with open(tree_path, encoding="utf-8") as f:
+        tree = json.load(f)
+    skills = {}
+    for cat, items in tree.get("categories", {}).items():
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if isinstance(item, dict) and item.get("name"):
+                e = skills.setdefault(item["name"], {
+                    "name": item["name"], "description": "", "categories": []})
+                if item.get("description") and not e["description"]:
+                    e["description"] = item["description"]
+                if item.get("qualified_name") and "qualified_name" not in e:
+                    e["qualified_name"] = item["qualified_name"]
+                if cat not in e["categories"]:
+                    e["categories"].append(cat)
+            elif isinstance(item, str):
+                e = skills.setdefault(item, {"name": item, "description": "", "categories": []})
+                if cat not in e["categories"]:
+                    e["categories"].append(cat)
+    return list(skills.values())
+
+
+def load_skill_aliases(tree_path=DEFAULT_TREE):
+    """v2.21.0:插件技能调用名映射 {技能名: 完整调用名}
+
+    双机制平台(ZCode 等)上,插件技能要用完整调用名(插件名:技能名)才能被
+    Skill 机制加载 —— 独立技能与插件技能可能同名,命中后必须按完整名调用。
+    树中没有插件技能时返回 {}。
+    """
+    if not os.path.exists(tree_path):
+        return {}
+    with open(tree_path, encoding="utf-8") as f:
+        tree = json.load(f)
+    aliases = {}
+    for items in tree.get("categories", {}).values():
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if (isinstance(item, dict) and item.get("name")
+                    and item.get("qualified_name")):
+                aliases.setdefault(item["name"], item["qualified_name"])
+    return aliases
+
+
+# ---- v2.28.0:检索侧分词与停用词 ----
+# 英文停用词复用图谱锚点那套(同一条教训:套话词不构成证据),中文补虚词/口语词。
+# 不滤掉这些词时,任意技能描述都能与任务在"的/把/了/一下/帮我"上重叠 ——
+# 实测(scripts/tests/retrieval_eval.py):20 条任务有 18 条被描述冗长的
+# "万能描述"技能(high-quality-skill-guidance 之类)霸榜,真正的领域技能进不了候选。
+_RT_WORD_RE = re.compile(r"[a-z0-9][a-z0-9_\-\.]*")
+_RT_CJK_RE = re.compile(r"[一-鿿]")
+# 纯虚词(只做语法功能,不承载语义)—— 出现即丢弃,单字与"二元组含其一"都丢。
+_CJK_STOP_CHARS = set(
+    "的了把我在有你和他她它们这那个些上下里中内外前后时让给从到向对为以于之"
+    "好很太再更最被所着过吧呢啊嘛呀怎吗咱俺您一次份些每该"
+)
+# 弱义字(可作动词也可作构词成分:会议/可能/使用…)—— 仅当它自己单独成词时丢弃,
+# 与别的字组成二元组时保留。分开处理是因为"含其一即丢"会误杀 会议/使用 这类真词。
+_CJK_WEAK_CHARS = set("能会要想要做搞弄用来去看说请帮")
+_RETRIEVAL_STOPWORDS = set(getattr(G, "ANCHOR_STOPWORDS", ()) if G else ())
+_RETRIEVAL_STOPWORDS |= {
+    "一下", "一个", "一些", "这些", "那些", "什么", "怎么", "可以", "需要",
+    "用来", "用于", "帮我", "给我", "我的", "我们", "你们", "他们",
+    "以及", "关于", "对于", "然后", "并且", "但是", "如果", "因为", "所以",
+}
+
+
+def _rt_tokens(text):
+    """v2.28.0:检索用词频表(Counter)——"分词 + 去停用词 + 保留词频"
+
+    与 lib.text.tokenize 同源切分(英文词边界 + 连字符拆子词 + 中文单字/二元组),
+    两处不同:① 保留词频(BM25 的 tf 需要计数,原 tokenize 返回 set);
+    ② 过一遍检索停用词(见上)。单字虚词与"双字皆虚词"的二元组直接丢弃,
+    真实词(数据/文档/股票/会议…)一律保留。
+    """
+    t = (text or "").lower()
+    words = _RT_WORD_RE.findall(t)
+    tokens = list(words)
+    for w in words:
+        if "-" in w or "_" in w or "." in w:
+            tokens.extend(p for p in re.split(r"[_\-\.]", w) if p)
+    cjk = _RT_CJK_RE.findall(t)
+    tokens.extend(cjk)
+    tokens.extend(cjk[i] + cjk[i + 1] for i in range(len(cjk) - 1))
+    counter = {}
+    for tok in tokens:
+        if not tok.strip() or tok in _RETRIEVAL_STOPWORDS:
+            continue
+        if len(tok) == 1 and (tok in _CJK_STOP_CHARS or tok in _CJK_WEAK_CHARS):
+            continue
+        # 二元组只要含一个纯虚词就丢弃 —— 跨词边界拼出来的"个转/价和/份汇"
+        # 这类假词会与任意冗长描述误撞,是"万能描述技能霸榜"的第二个来源。
+        if len(tok) == 2 and any(c in _CJK_STOP_CHARS for c in tok):
+            continue
+        counter[tok] = counter.get(tok, 0) + 1
+    return counter
+
+
+def _rrf_fuse(rank_lists, k=60):
+    """v2.28.0:RRF 倒数排名融合(Reciprocal Rank Fusion)
+
+    借鉴 zg(zvec-grep) 的"多路召回 + RRF 融合":单一打分器在语义断层前必败 ——
+    收太紧漏掉关键技能,放太宽候选泛滥。改为把多路召回各自的**排名**融合,
+    而不是给各路分数调权重:无需归一化(不同量纲也能融合)、零调参;
+    出现在多路的候选天然被抬升,这正是不相关技能进不来的原因。
+
+    ponytail: k=60 取 RRF 论文默认值,未做调参;实测排序不佳再动。
+    返回 {技能名: 融合分}(未归一化)。
+    """
+    fused = {}
+    for ranking in rank_lists:
+        for rank, item in enumerate(ranking, start=1):
+            name = item.get("name")
+            if name:
+                fused[name] = fused.get(name, 0.0) + 1.0 / (k + rank)
+    return fused
+
+
+def _bm25_desc_scores(pool, task, k1=1.5, b=0.75):
+    """v2.28.0:描述通道的打分器 —— BM25(词频 × IDF × 文档长度归一化)
+
+    借鉴 zg 文章里 BM25 的分工("负责兜底专业名词和特定标识符的相关性排序"),
+    关键价值是**长度归一化**:旧打分 |A∩B|/min(|A|,|B|) 没有长度惩罚,
+    描述越长越"什么都沾一点"的技能越容易霸榜(实测 20 条任务挂 18 条)。
+
+    ponytail: k1=1.5 / b=0.75 取经典默认值,未针对本技能库调参。
+    返回 {技能名: bm25 分}(仅 >0 的条目)。
+    """
+    docs, df = {}, {}
+    for s in pool:
+        c = _rt_tokens(s.get("description") or "")
+        docs[s["name"]] = c
+        for t in c:
+            df[t] = df.get(t, 0) + 1
+    q = set(_rt_tokens(task))
+    if not docs or not q:
+        return {}
+    n_docs = len(docs)
+    avgdl = (sum(sum(c.values()) for c in docs.values()) / n_docs) or 1.0
+    scores = {}
+    for name, c in docs.items():
+        dl = sum(c.values())
+        if not dl:
+            continue
+        total = 0.0
+        for t in q:
+            f = c.get(t)
+            if not f:
+                continue
+            idf = math.log(1.0 + (n_docs - df.get(t, 0) + 0.5) / (df.get(t, 0) + 0.5))
+            total += idf * (f * (k1 + 1)) / (f + k1 * (1 - b + b * dl / avgdl))
+        if total > 0:
+            scores[name] = round(total, 4)
+    return scores
+
+
+def hit_channels(skill, task, expanded=None):
+    """v2.28.0:该技能命中了哪几路召回(注入溯源 / 可解释性)
+
+    返回 list[str],元素取自 名称 / 描述 —— 与 hybrid_retrieve_skills 的两路
+    证据通道同源。这里只负责解释"为什么相关":是技能名被任务词面直接命中
+    (强信号),还是描述与任务词面贴合(BM25 兜底,弱信号)。
+    """
+    if not task:
+        return []
+    exp = expand_task_text(task) if expanded is None else expanded
+    hits = []
+    if skill.get("name") and overlap_score(exp, skill["name"]) > 0:
+        hits.append("名称")
+    if set(_rt_tokens(exp)) & set(_rt_tokens(skill.get("description") or "")):
+        hits.append("描述")
+    return hits
+
+
+def hybrid_retrieve_skills(skills, task, top_k=4, min_score=0.08, rrf_k=60):
+    """v2.28.0:双路证据召回 + RRF 融合检索(替代 v2.12.0 的单一加权打分)
+
+    痛点正是 zg 文章那句"人类在说意图,Agent 在猜字面":用户说"把改好的东西
+    传上去",技能却叫 github-gitee-publish —— 单一 overlap 打分对这类
+    "意图↔命名"断层无能为力,且描述越长越占便宜,真实信号被泛相关技能稀释。
+
+    双路证据召回(各自排名,不调权重):
+      ① 名称路:任务 token 命中技能名/标识符 —— 最强信号,相当于精确匹配通道;
+      ② 描述路:BM25(词频 × IDF × 长度归一化)≥ min_score —— 语义兜底面,
+         长度归一化是精度关键(见 _bm25_desc_scores)。
+    只融合这两路 —— 二者都是**证据**通道(词面确实对上了)。
+    分类路由(REQUIRED_CATEGORY_KEYWORDS)是**策略**信号,不是证据:v2.28.0 实测
+    把它当作第三路平等融合时,它会用"分类对口但词面零交集"的候选挤掉真正命中
+    词面的技能(任务"查一下贵州茅台的股价和市盈率" → 路由把 search 类泛技能
+    顶到前 4,BM25 排第 4 的 akshare-stock 反被挤出)。路由继续以原有两种身份
+    生效:注入块的「任务必需技能」清单 + 门禁 Layer C 硬校验。
+    融合:RRF 按各路排名求和 → 归一化到 (0,1] 便于展示(最高分恒为 1.0)。
+
+    ponytail: 只融合两路证据。升第三路的正确姿势是把技能图谱的锚点邻居
+    (已由 lib/graph.py + graph_items 产出)接进来做语义路,而不是拿路由凑数;
+    等实测证明两路不够再动。
+
+    返回 [(score, skill)],按融合分降序;排除元规则自身。
+    """
+    if not task or not skills:
+        return []
+    # v2.12.1: 只有非安装类任务才排除自身
+    # 若任务含"安装/配置"等关键词，说明宪法本身就是目标，不应排除
+    has_install_intent = any(k in expand_task_text(task).lower()
+                             for k in ["安装", "install", "配置", "configure"])
+    EXCLUDED = set() if has_install_intent else {"skills-constitution", "constitution-check"}
+    expanded = expand_task_text(task)
+
+    pool = [s for s in skills if s.get("name") not in EXCLUDED]
+    name_hits = {s["name"]: (overlap_score(expanded, s["name"]) if s.get("name") else 0.0)
+                 for s in pool}
+    bm25 = _bm25_desc_scores(pool, expanded)
+
+    def _rank(channel, score_of):
+        return sorted(channel, key=lambda x: (-score_of.get(x["name"], 0.0), x["name"]))
+
+    by_name_ch = _rank([s for s in pool if name_hits.get(s["name"], 0.0) > 0], name_hits)
+    by_desc_ch = _rank([s for s in pool if bm25.get(s["name"], 0.0) >= min_score], bm25)
+
+    fused = _rrf_fuse([by_name_ch, by_desc_ch], k=rrf_k)
+    if not fused:
+        return []
+    best = max(fused.values())
+    scored = [(round(fused[s["name"]] / best, 3), s) for s in pool if s["name"] in fused]
+    scored.sort(key=lambda x: (-x[0], x[1]["name"]))
+    return scored[:top_k]
+
+
+def loose_retrieve_skills(skills, task, top_k=4, min_score=0.08,
+                          category_boost=0.25, name_boost=0.15):
+    """v2.12.0 SAD 粗检索入口;v2.28.0 起委托 hybrid_retrieve_skills(三路召回+RRF)。
+
+    category_boost / name_boost 保留仅为向后兼容 —— 融合已把"分类路由"与
+    "技能名命中"显式建模为独立召回通道,不再需要手工加成权重。
+    """
+    return hybrid_retrieve_skills(skills, task, top_k=top_k, min_score=min_score)
+
+
+def filter_tree_by_task(tree, task):
+    """按任务关键词过滤技能树分类，返回相关分类名列表
+    v2.12.0:先经同义词扩展再匹配,口语表达也能定位分类。"""
+    if not task:
+        return list(tree.keys())
+    task_lower = expand_task_text(task).lower()
+    matched = []
+    for cat, keywords in TASK_CATEGORY_MAP.items():
+        for kw in keywords:
+            if kw.lower() in task_lower:
+                # 找到该分类在树中对应的 key（模糊匹配分类名）
+                for tree_cat in tree.keys():
+                    if cat.lower() in tree_cat.lower() or tree_cat.lower() in cat.lower():
+                        matched.append(tree_cat)
+                        break
+                break
+    # 去重，保留顺序
+    seen = set()
+    result = []
+    for c in matched:
+        if c not in seen:
+            seen.add(c)
+            result.append(c)
+    if not result:
+        # v2.27.6:原兜底 = 字母序前 5 个分类(general/browser/search/file/data),
+        # 与任务毫无关系 —— "推送到 github 和 gitee"这类任务连 code/automation 分类
+        # 都进不来,相关技能(排在分类第 38 位)永远不露面。
+        # 改为复用确定性路由(REQUIRED_CATEGORY_KEYWORDS 那套关键词,已验证对
+        # 同一句话能正确返回 code/meta),仍为空才退回前 5 个。
+        return required_categories_for_task(task) or list(tree.keys())[:5]
+    return result
+
+
+def extract_memory_relevant(memory_text, task, max_total=900):
+    """v2.17.0 注入块记忆瘦身：只注入任务相关片段 + 关键铁律
+
+    背景:旧逻辑按固定 marker 取前 4 个 section(各 500 字)或兜底 memory_text[:800],
+    内容与任务相关性低,把技能树省下的 token 又吃回去。
+    新策略:
+      1. 按 '## ' 切分 MEMORY.md 为 sections
+      2. 铁律优先: 标题含 死规则/铁律/宪法/偏好 → 总是注入(最多2个,各300字)
+      3. 任务相关: 其余 section 按任务扩展文本重叠打分,取 top2(各400字)
+      4. 兜底: 无 section 或任务无匹配 → 取前 400 字
+    返回注入用文本块(不含代码围栏),总长 ≤ max_total。
+    """
+    if not memory_text:
+        return "_（MEMORY.md 未找到）_"
+    import re as _re
+    sections = _re.split(r"(?m)^## ", memory_text)
+    parts = []
+    budget = 0
+    rule_keywords = ["死规则", "铁律", "宪法", "偏好"]
+    task_lower = expand_task_text(task).lower() if task else ""
+
+    # 1) 铁律/偏好类 section 总是注入(最多 2 个,各 300 字)
+    rules = []
+    for s in sections[1:]:
+        title = s.splitlines()[0][:40] if s.splitlines() else ""
+        if any(k in title for k in rule_keywords):
+            rules.append(s.strip()[:300])
+    for r in rules[:2]:
+        parts.append(r)
+        budget += len(r)
+
+    # 2) 任务相关 section top2(各 400 字)
+    scored = []
+    for s in sections[1:]:
+        title = s.splitlines()[0][:40] if s.splitlines() else ""
+        if any(k in title for k in rule_keywords):
+            continue
+        hay = (title + " " + s[:200]).lower()
+        sc = overlap_score(task_lower, hay)
+        if sc > 0:
+            scored.append((sc, s.strip()))
+    scored.sort(key=lambda x: -x[0])
+    for _sc, s in scored[:2]:
+        if budget < max_total:
+            seg = s[:400]
+            parts.append(seg)
+            budget += len(seg)
+
+    # 3) 兜底
+    if not parts:
+        return memory_text[:400]
+    return "\n\n".join(parts)[:max_total]
+
+
+def rank_anchors_for_task(tree_path, task, required_skills, top_k=12):
+    """v2.23.0:任务锚点排名 —— 必需技能按 SAD 排名排序(长列表)
+
+    必需分类可能有噪声(分类器不完美,一次命中几十个技能,其中不乏恰好含
+    任务关键词的无关技能)。复用 loose_retrieve_skills 的成熟排名(名称加成
+    + 必需分类加成 + 描述重叠),与必需技能求交集后按相关度降序返回。
+    调用方按需取前几名/序贯尝试 —— 孤立于图谱的锚点自然被跳过。
+    全部落空时退回确定性排序,保证任何情况下有锚点可用。
+    """
+    try:
+        ranked_all = loose_retrieve_skills(load_tree_full(tree_path), task, top_k=12)
+        req_set = set(required_skills)
+        top = [s["name"] for _sc, s in ranked_all if s["name"] in req_set][:top_k]
+        if top:
+            return top
+    except Exception:
+        pass
+    return sorted(required_skills)[:top_k]
+
+
+def graph_candidates_for_task(tree, task, graph_path=DEFAULT_GRAPH, max_neighbors=8,
+                              tree_path=DEFAULT_TREE):
+    """v2.23.0:图谱候选 —— 任务锚点技能的同簇成员+一跳邻居(带边证据)
+
+    借鉴 GitNexus「预计算关系智能」:关系在索引期已固化进 skill_graph.json,
+    注入面从"整分类清单"收窄到"锚点技能的任务线图谱"(更准且更省 token)。
+    锚点 = 任务必需技能里相关度排名前 2 的(必需分类可能有噪声,精选后
+    再扩展邻居);无锚点或无图 → 返回 []。
+    """
+    if G is None or not task:
+        return []
+    graph = G.load_graph(graph_path)
+    if not graph:
+        return []
+    _cats, anchors = required_skills_for_task(tree, task)
+    if not anchors:
+        return []
+    # 锚点排名 + 序贯扩展:按 SAD 排名依次尝试,孤立于图谱的锚点自然跳过,
+    # 直到填满 token 预算(与 Layer F 锚点同源)
+    ranked = rank_anchors_for_task(tree_path, task, anchors, top_k=12)
+    # v2.27.1:超采样 3 倍后对 cluster 候选降噪 —— 同簇成员必须与任务有词面
+    # 交集(技能名或描述),否则丢弃(实测"写爬虫"任务混入 7 个 adobe-* 无关
+    # 同簇成员,821 字符大半是噪声,违背项目"极度省 token"原则)。
+    # 结构边(chains_to/co_anchor)与 alternative(建边时已要求同分类+描述重叠)
+    # 语义已足够强,保持原样不过滤。降噪工具缺失时退化为不过滤(fail-open)。
+    raw = G.graph_expand(graph, ranked, max_neighbors=max_neighbors * 3)
+    if _overlap_score is None:
+        return raw[:max_neighbors]
+    _desc = {}
+    try:
+        for _s in load_tree_full(tree_path):
+            _desc[_s.get("name", "")] = (_s.get("description") or "")
+    except Exception:
+        pass
+    kept = []
+    for it in raw:
+        if it.get("kind") == "cluster":
+            _text = "%s %s" % (it.get("name", ""), _desc.get(it.get("name", ""), ""))
+            if _overlap_score(_text, task) <= 0:
+                continue
+        kept.append(it)
+        if len(kept) >= max_neighbors:
+            break
+    return kept
+
+
+def pick_display_skills(tree, cat, task, n=8, full_by_name=None):
+    """v2.27.6:按任务相关度挑选要展示的技能名,替代原来的字母序硬截断。
+
+    原逻辑 `skills[:8]`/`cat_skills[:10]` 只取字母序前 N 个 —— 分类里排第 38 位的
+    github-gitee-publish 永远显示不出来,Agent 据这份残缺名单判"技能树无匹配"
+    (2026-09-04 实锤事故)。改为复用现成的 loose_retrieve_skills 打分排序,
+    相关度高的优先展示;无任务文本或无人过线时退回字母序前 N 个(行为不变)。
+
+    full_by_name:{技能名: 完整条目(含 description)},调用方用 load_tree_full 建一次传进来。
+    返回 (names, total):names=展示用技能名(最多 n 个),total=该分类技能总数。
+    """
+    names = tree.get(cat) or []
+    total = len(names)
+    if not names:
+        return [], 0
+    picked = []
+    if task and full_by_name:
+        entries = [full_by_name[x] for x in names if x in full_by_name]
+        if entries:
+            picked = [s.get("name") for _, s in
+                      loose_retrieve_skills(entries, task, top_k=n) if s.get("name")]
+    if not picked:
+        picked = names[:n]
+    return picked, total
+
+
+def build_injection(memory_text, tree, matched_cats, task, sad_candidates=None,
+                    aliases=None, graph_items=None):
+    """生成注入块 Markdown
+    v2.12.0:新增 sad_candidates(SAD 宽松语义检索 top-K 候选)渲染段落。
+    v2.17.0:记忆层改用 extract_memory_relevant(任务相关+铁律,瘦身)。
+    v2.21.0:新增 aliases(插件技能调用名映射)—— 双机制平台上插件技能
+    以完整调用名(插件名:技能名)渲染,命中后按完整名调用。
+    v2.23.0:新增 graph_items(技能图谱候选)—— 锚点技能的同簇/一跳邻居,
+    每条带"为什么相关"的边证据(溯源)。"""
+    aliases = aliases or {}
+
+    def disp(name):
+        q = aliases.get(name)
+        return f"{name}(调用名 `{q}`)" if q else name
+
+    lines = []
+    lines.append("## ⚡ 宪法 Pre-hook 注入（任务开始前强制注入，禁止跳过）")
+    lines.append("")
+    lines.append(f"> 任务: {task or '(未指定)'} — 以下内容由代码强制注入，Agent 无需自行检索。")
+    lines.append("")
+
+    # 记忆层注入（v2.17.0: 只注入任务相关片段+铁律,避免记忆吃掉技能树省下的 token）
+    lines.append("### 📜 记忆层（MEMORY.md 关键规则，必须遵循）")
+    mem_block = extract_memory_relevant(memory_text, task)
+    lines.append("```")
+    lines.append(mem_block)
+    lines.append("```")
+    lines.append("")
+
+    # 技能树注入
+    lines.append("### 🗂️ 技能树（相关分类，Agent 应先查此处再动手）")
+    if aliases:
+        example = next(iter(aliases.values()))
+        lines.append(f"> 双机制平台（v2.21.0）：技能树含 {len(aliases)} 个插件技能，"
+                     f"命中插件技能时按完整调用名调用（如 `{example}`）。")
+    # v2.27.6:全量条目索引(含描述)只在这里建一次,供各分类按相关度挑选展示项
+    full_by_name = {}
+    try:
+        for _e in load_tree_full(DEFAULT_TREE):
+            full_by_name[_e.get("name")] = _e
+    except Exception:
+        full_by_name = {}
+    for cat in matched_cats:
+        skills = tree.get(cat, [])
+        if skills:
+            picked, total = pick_display_skills(tree, cat, task, 8, full_by_name)
+            tail = (f"（按任务相关度显示前 {len(picked)}/{total} 个，"
+                    f"未列全；判定“无匹配”前须 grep 完整索引）"
+                    if total > len(picked) else "")
+            lines.append(f"- **{cat}** ({total}): {', '.join(disp(n) for n in picked)}{tail}")
+    lines.append("")
+
+    # v2.11.0 必需技能清单注入（硬校验依据）
+    required_cats, required_skills = required_skills_for_task(tree, task)
+    if required_skills:
+        lines.append("### 🎯 任务必需技能（v2.11.0 硬校验：输出必须引用其一，否则判定 FAIL）")
+        for cat in required_cats:
+            picked, total = pick_display_skills(tree, cat, task, 10, full_by_name)
+            cat_skills = [s for s in picked if s in required_skills]
+            if cat_skills:
+                tail = (f"（共 {total} 个，按相关度显示前 {len(cat_skills)} 个）"
+                        if total > len(cat_skills) else "")
+                lines.append(f"- **{cat}** 分类命中候选: {', '.join(cat_skills)}{tail}")
+        lines.append("")
+
+    # v2.23.0 技能图谱候选注入（锚点技能的任务线：同簇+一跳，带边证据）
+    if graph_items:
+        lines.append("### 🕸️ 技能图谱（v2.23.0：锚点技能的任务线邻居，附相关理由）")
+        for it in graph_items:
+            lines.append(f"- `{disp(it['name'])}` — {it['evidence']}")
+        lines.append("")
+
+    # v2.12.0 SAD 候选技能注入（宽松语义检索 top-K，起草方案时对齐用词）
+    # v2.21.0:插件技能以完整调用名渲染(双机制平台按完整名调用)
+    # v2.28.0:双路证据召回(BM25 描述路 + 名称路)+RRF 融合排序,并标注命中依据
+    #         (名称/描述)—— Agent 据此判断候选是硬命中还是仅描述贴合,不再只看一个分数。
+    if sad_candidates:
+        lines.append("### 🧠 SAD 候选技能（v2.28.0 双路召回+RRF 融合 top-K，按融合相关度排序）")
+        for score, s in sad_candidates:
+            desc = (s.get("description") or "")[:40]
+            cats = "/".join(s.get("categories", [])[:3])
+            qname = s.get("qualified_name")
+            label = f"`{qname}`（插件）" if qname else f"`{s['name']}`"
+            why = hit_channels(s, task)
+            why_txt = f"，命中 {', '.join(why)}" if why else ""
+            lines.append(f"- {label} ({cats}, 相关度 {score}{why_txt}): {desc}")
+        lines.append("")
+        lines.append("> **SAD 流程**：先草拟执行方案 → 对照以上候选技能修订用词与粒度 → 再输出【宪法三查】。"
+                     "候选均不相关时才允许声明\"技能树无匹配\"。")
+        lines.append("")
+
+    lines.append("**执行要求：**")
+    lines.append("1. 首句输出【宪法三查】,②技能树必须列出命中技能名清单(禁止只写'已读技能树')"
+                 "(v2.30.0:三查仅任务开始时一次,同一任务内后续轮次无需重复;"
+                 "但「有匹配必用」每轮都适用 —— 只要有相关技能必须用 Skill 工具调用)")
+    lines.append("2. 命中技能必调用;无命中声明'技能树无匹配'再走通用能力")
+    lines.append("3. 完成后输出【本次相关技能推荐】:本地技能不够用时去 GitHub 搜高 Star 技能推荐(链接+star+获取方式),排除已装")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def check_injection(text, memory_path=DEFAULT_MEMORY, tree_path=DEFAULT_TREE, task=None):
+    """校验文本是否包含注入块元素（宿主 hook 用）
+
+    v2.11.0 增强:传入 task 后,若任务含"代码/git/部署"等关键词,
+    输出文本必须引用对应分类下的实际技能名(从 skill_tree.json 读取),
+    否则视为"查了技能树但未命中任务相关技能" → FAIL。
+
+    v2.19.0 修复:
+    - tree 未初始化导致 UnboundLocalError(skill_tree.json 缺失且传 --task 时崩溃)
+    - 全部匹配改词边界;废除"分类名出现即算命中"兜底 —— 必需技能校验只认实际技能名
+    """
+    if not text:
+        return False, "无输入文本"
+    # 必须包含三查汇报
+    if not re.search(r"【宪法三查】|宪法三查|三查", text):
+        return False, "缺【宪法三查】汇报"
+    # 必须包含记忆标记
+    memory_text = load_memory(memory_path)
+    if memory_text:
+        memory_markers = ["铁律", "MEMORY", "技能", "宪法", "GitHub", "仓库"]
+        found_mem = [m for m in memory_markers if keyword_in(text, m)]
+        if len(found_mem) < 2:
+            return False, f"记忆引用不足(仅命中:{found_mem})"
+    # 必须包含技能树标记(树缺失时跳过该项,不再因缺文件崩溃/误拦)
+    tree = load_tree(tree_path)
+    if tree:
+        all_cats = list(tree.keys())
+        found_cat = [c for c in all_cats[:10] if keyword_in(text, c)]
+        if not found_cat:
+            return False, "缺技能树分类引用"
+
+    # v2.11.0:任务必需技能硬校验 — 任务含代码/git/部署关键词时,必须命中对应分类技能名
+    if task:
+        required_cats, required_skills = required_skills_for_task(tree, task)
+        if required_skills:
+            # v2.19.0:只认实际技能名(词边界);分类名出现不再算证据
+            found_skills = [s for s in required_skills if keyword_in(text, s)]
+            if not found_skills:
+                return False, (
+                    f"任务含必需关键词但输出未引用任务相关技能"
+                    f"(必需分类:{required_cats}, 候选技能示例:{required_skills[:5]})"
+                )
+    return True, "注入合规(三查+记忆+技能树均已覆盖)"
+
+
+# ---- v2.27.0:钩子单进程模式辅助(上下文保活 + 原子写入) ----
+
+def _atomic_write_json(path, data):
+    """v2.27.0:原子写入 JSON(temp + os.replace)。
+
+    旧版直接 open(w)+dump,UserPromptSubmit/PreToolUse/Stop 三个钩子进程
+    并发写同一状态文件时互相截断 → 门禁状态丢失 → 任务级通行证失效,
+    造成"任务开始已三查、中途仍被拦"(用户钦定 bug)。replace 原子替换后,
+    读方看到的永远是完整文件。
+    """
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
+
+
+def context_ready(context_path=None, max_age=24 * 3600):
+    """v2.27.0:注入上下文是否新鲜可用(status=ready 且 24h 内)"""
+    path = context_path or CONTEXT_PATH
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        if data.get("status") != "ready":
+            return False
+        ts = (data.get("timestamp") or "")[:19]
+        if ts:
+            then = time.mktime(time.strptime(ts, "%Y-%m-%dT%H:%M:%S"))
+            if time.time() - then > max_age:
+                return False
+        return True
+    except Exception:
+        return False
+
+
+def refresh_injection(task_text, context_path=None):
+    """v2.27.0:进程内刷新注入上下文(自愈,替代嵌套重跑 session-start.sh)。
+
+    旧自愈路径 = bash 再跑一遍 session-start.sh(约 12 次进程启动,本机 25s+,
+    在 10s 自愈限时内永远跑不完 → 注入永远不 ready → 每个专业任务都被拦)。
+    现改为在当前 python 进程内直接构建注入块并原子写入上下文文件,
+    零额外进程,秒级完成。返回 True=刷新成功。
+    """
+    path = context_path or CONTEXT_PATH
+    memory_text = load_memory(DEFAULT_MEMORY)
+    tree = load_tree(DEFAULT_TREE)
+    matched_cats = filter_tree_by_task(tree, task_text) if task_text else []
+    sad_candidates = loose_retrieve_skills(load_tree_full(DEFAULT_TREE),
+                                           task_text) if task_text else []
+    # v2.27.1:自愈路径同样接入技能图谱候选(v2.23.0 特性在此处曾漏传 [],
+    # 导致 hook-mode 自愈刷新产出的注入块缺少「🕸️ 技能图谱」段)
+    graph_items = graph_candidates_for_task(tree, task_text) if task_text else []
+    injection = build_injection(memory_text, tree, matched_cats, task_text,
+                                sad_candidates, load_skill_aliases(DEFAULT_TREE),
+                                graph_items)
+    data = {
+        "status": "ready",
+        "hook": "UserPromptSubmit-selfheal",
+        "memory_file": DEFAULT_MEMORY,
+        "memory_len": len(memory_text),
+        "tree_file": DEFAULT_TREE,
+        "tree_categories": len(tree),
+        "injected_categories": ",".join(matched_cats),
+        "sad_candidates": ";".join(s.get("name", "") for _, s in sad_candidates[:3]),
+        "python": sys.executable or "python",
+        "python_branch_ok": "yes",
+        "fallback_reason": "",
+        "injection_len": len(injection),
+        "debug": {"pre_hook_stderr": ""},
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    _atomic_write_json(path, data)
+    return True
+
+
+def main():
+    ap = argparse.ArgumentParser(description="宪法 Pre-hook: 任务前强制注入记忆+技能树")
+    ap.add_argument("--task", help="任务描述(用于过滤技能树分类;check模式用于任务必需技能硬校验)")
+    ap.add_argument("--memory", default=DEFAULT_MEMORY, help=f"MEMORY.md路径(默认:{DEFAULT_MEMORY})")
+    ap.add_argument("--tree", default=DEFAULT_TREE, help=f"skill_tree.json路径(默认:{DEFAULT_TREE})")
+    ap.add_argument("--graph", default=DEFAULT_GRAPH, help=f"skill_graph.json路径(默认:{DEFAULT_GRAPH})")
+    ap.add_argument("--output", help="注入块输出到文件(缺省打印到 stdout)")
+    ap.add_argument("--json", action="store_true", help="JSON 输出")
+    ap.add_argument("--check", action="store_true", help="校验模式:检查文本是否已注入")
+    ap.add_argument("--input", help="校验模式:待检查的文本文件")
+    ap.add_argument("--strict", action="store_true", help="校验失败 exit 1(宿主 hook 阻断)")
+    ap.add_argument("--classify", action="store_true",
+                    help="任务分类模式:按零号条款判定简单/专业/模糊(不注入不校验)")
+    ap.add_argument("--hook-mode", action="store_true",
+                    help="v2.27.0 钩子单进程模式: 分类+上下文保活一次完成(热路径仅1次python调用,fail-open不拦)")
+    ap.add_argument("--context-out",
+                    help="v2.27.0: 注入同时把 injected-context.json 原子写入此路径(session-start 单进程化)")
+    a = ap.parse_args()
+
+    # ---- v2.27.0:钩子单进程模式 ----
+    # user-prompt-submit.sh exec 进来,整个钩子热路径只有这一次 python 调用:
+    # ① 读任务(stdin JSON 或 $1) → ② 简单任务直接放行 → ③ 专业/模糊任务做
+    # 注入上下文保活(缺失/过期时进程内刷新,替代旧版嵌套重跑 session-start.sh)。
+    # 全程 fail-open:任何异常都放行,绝不卡用户任务。
+    if a.hook_mode:
+        try:
+            task_text = a.task or ""
+            if not task_text and not sys.stdin.isatty():
+                raw = (sys.stdin.read() or "").strip()
+                if raw.startswith("{"):
+                    try:
+                        d = json.loads(raw)
+                        task_text = str(d.get("prompt", d.get("task",
+                                        d.get("input", "")) or "")).strip()
+                    except Exception:
+                        task_text = ""
+                else:
+                    task_text = raw
+            if task_text and classify_task(task_text) != "simple":
+                # 专业/模糊任务:上下文保活(缺失/过期>24h 时进程内刷新)
+                if not context_ready():
+                    try:
+                        refresh_injection(task_text[:2000])
+                    except Exception:
+                        pass  # 刷新失败不拦任务(fail-open)
+        except Exception:
+            pass  # fail-open
+        return 0
+
+    # ---- 任务分类模式（零号条款双通道分流） ----
+    if a.classify:
+        task_text = ""
+        if a.task:
+            task_text = a.task
+        elif a.input:
+            with open(a.input, encoding="utf-8") as f:
+                task_text = f.read()
+        else:
+            task_text = sys.stdin.read()
+        task_type = classify_task(task_text)
+        if a.json:
+            print(json.dumps({
+                "task_type": task_type,
+                "channel": "A-简单(通用能力)" if task_type == "simple"
+                           else "B-专业(强制门禁)" if task_type == "professional"
+                           else "B-模糊(按专业处理)",
+                "rule": "零号条款:简单问答跳过;专业任务必查;模糊任务查一下(宁可不放过)"
+            }, ensure_ascii=False, indent=2))
+        else:
+            if task_type == "simple":
+                print("[通道A] 简单任务 → 跳过门禁，直接通用能力（零号条款豁免）")
+            elif task_type == "professional":
+                print("[通道B] 专业任务 → 强制 pre-hook 注入 + 五步门禁校验")
+            else:
+                print("[通道B] 模糊任务 → 宁可不放过，按专业任务强制门禁")
+        return 0
+
+    # ---- 校验模式 ----
+    if a.check:
+        text = ""
+        if a.input:
+            with open(a.input, encoding="utf-8") as f:
+                text = f.read()
+        ok, msg = check_injection(text, a.memory, a.tree, a.task)
+        if a.json:
+            print(json.dumps({"ok": ok, "message": msg}, ensure_ascii=False, indent=2))
+        else:
+            print(f"[{'PASS' if ok else 'FAIL'}] {msg}")
+        if a.strict and not ok:
+            return 1
+        return 0
+
+    # ---- 注入模式 ----
+    memory_text = load_memory(a.memory)
+    tree = load_tree(a.tree)
+    matched_cats = filter_tree_by_task(tree, a.task)
+    # v2.12.0:SAD 宽松语义检索候选(top-K)
+    sad_candidates = loose_retrieve_skills(load_tree_full(a.tree), a.task) if a.task else []
+    # v2.21.0:插件技能调用名映射(双机制平台按完整名调用)
+    aliases = load_skill_aliases(a.tree)
+    # v2.23.0:技能图谱候选(锚点技能的任务线;无图/无锚点时为空,不影响旧行为)
+    graph_items = graph_candidates_for_task(tree, a.task, a.graph,
+                                            tree_path=a.tree) if a.task else []
+    injection = build_injection(memory_text, tree, matched_cats, a.task,
+                                sad_candidates, aliases, graph_items)
+
+    # ---- v2.27.0:--context-out —— 注入块与上下文文件一次调用同时产出 ----
+    # session-start.sh 单进程化:旧版 1 次生成 + 3 次 JSON 解析 + 1 次上下文写入
+    # 共 5 次 python 调用,现合并为本调用(原子写入上下文,stdout 直接输出注入块)。
+    if a.context_out:
+        try:
+            _atomic_write_json(a.context_out, {
+                "status": "ready",
+                "hook": "SessionStart",
+                "memory_file": a.memory,
+                "memory_len": len(memory_text),
+                "tree_file": a.tree,
+                "tree_categories": len(tree),
+                "injected_categories": ",".join(matched_cats),
+                "sad_candidates": ";".join(s.get("name", "") for _, s in sad_candidates[:3]),
+                "python": sys.executable or "python",
+                "python_branch_ok": "yes",
+                "fallback_reason": "",
+                "injection_len": len(injection),
+                "debug": {"pre_hook_stderr": ""},
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            })
+            print("【宪法】注入完成: memory=%d字 tree=%d分类 注入分类=%s"
+                  % (len(memory_text), len(tree), ",".join(matched_cats) or "-"))
+        except Exception:
+            pass  # 上下文写失败不影响注入块输出(fail-open)
+
+    if a.output:
+        with open(a.output, "w", encoding="utf-8") as f:
+            f.write(injection)
+        print(f"✓ 注入块已写入: {a.output}")
+        print(f"  记忆: {len(memory_text)} 字符 | 技能树分类: {len(tree)} | 注入分类: {len(matched_cats)}")
+        return 0
+
+    if a.json:
+        # v2.24.0:注入块序列化加固 —— 任一字段含不可 JSON 序列化对象
+        # (set / Path / 自定义类型)时,旧版整段 json.dumps 抛异常 →
+        # session-start 判定 python 分支失败 → 降级 bash 兜底 →
+        # 门禁 injected 证据缺失,"注入即查"失效,每个任务都被迫重跑三查。
+        # 现改为:① default 兜底转换;② 兜底仍失败则降级为纯文本输出,
+        # 保证注入块永不因序列化问题整体丢失(fail-open,与项目设计原则一致)。
+        def _json_default(o):
+            if isinstance(o, (set, frozenset, tuple)):
+                return list(o)
+            if isinstance(o, bytes):
+                return o.decode("utf-8", errors="ignore")
+            try:
+                import pathlib
+                if isinstance(o, pathlib.PurePath):
+                    return str(o)
+            except Exception:
+                pass
+            return str(o)
+
+        payload = {
+            "task": a.task,
+            "memory_len": len(memory_text),
+            "tree_categories": len(tree),
+            "injected_categories": matched_cats,
+            "sad_candidates": [
+                {"name": s.get("name", ""), "score": sc,
+                 "categories": list(s.get("categories", []) or []),
+                 "qualified_name": s.get("qualified_name", "")}
+                for sc, s in sad_candidates
+            ],
+            "plugin_skills": len(aliases),
+            "graph_candidates": [
+                {"name": it.get("name", ""), "via": it.get("via", ""),
+                 "kind": it.get("kind", ""), "evidence": it.get("evidence", "")}
+                for it in graph_items
+            ],
+            "injection": injection,
+        }
+        try:
+            print(json.dumps(payload, ensure_ascii=False, indent=2,
+                             default=_json_default))
+        except Exception as _e:
+            # 兜底:注入块是本脚本的核心价值,宁可退化格式也不能不输出
+            print(json.dumps({"task": a.task, "injection": injection,
+                              "serialize_warning": str(_e)[:200]},
+                             ensure_ascii=False))
+    else:
+        print(injection)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

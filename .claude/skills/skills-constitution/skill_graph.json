@@ -1,0 +1,6867 @@
+{
+  "version": "2.32.1",
+  "generated_at": "2026-10-18T12:50:35.492369",
+  "source": {
+    "tree": "skill_tree.json",
+    "registry": "registry.json"
+  },
+  "node_count": 778,
+  "edge_count": 1038,
+  "edges": [
+    {
+      "source": "spec-driven-development",
+      "target": "code-review-and-quality",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code"
+    },
+    {
+      "source": "spec-driven-development",
+      "target": "git-workflow-and-versioning",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code"
+    },
+    {
+      "source": "spec-driven-development",
+      "target": "security-and-hardening",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code"
+    },
+    {
+      "source": "spec-driven-development",
+      "target": "test-driven-development",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code/spec"
+    },
+    {
+      "source": "pdf",
+      "target": "docx",
+      "kind": "chains_to",
+      "evidence": "输出→输入: text"
+    },
+    {
+      "source": "pdf",
+      "target": "pptx",
+      "kind": "chains_to",
+      "evidence": "输出→输入: text"
+    },
+    {
+      "source": "test-driven-development",
+      "target": "code-review-and-quality",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code"
+    },
+    {
+      "source": "test-driven-development",
+      "target": "git-workflow-and-versioning",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code"
+    },
+    {
+      "source": "test-driven-development",
+      "target": "security-and-hardening",
+      "kind": "chains_to",
+      "evidence": "输出→输入: code"
+    },
+    {
+      "source": "anthropic-skill-creator",
+      "target": "minimax-docx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: existing, scratch"
+    },
+    {
+      "source": "api-and-interface-design",
+      "target": "design-an-interface",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interface, module"
+    },
+    {
+      "source": "api-and-interface-design",
+      "target": "codebase-design",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: designing, interface, module"
+    },
+    {
+      "source": "api-gateway",
+      "target": "triage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: external, through"
+    },
+    {
+      "source": "api-gateway",
+      "target": "mcp-builder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: external, through"
+    },
+    {
+      "source": "api-gateway",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: through, target"
+    },
+    {
+      "source": "apple-notes",
+      "target": "apple-reminders",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: delete, apple, maco"
+    },
+    {
+      "source": "batch-grill-me",
+      "target": "grill-me",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: relentless, interview"
+    },
+    {
+      "source": "batch-grill-me",
+      "target": "grill-with-docs",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: relentless, interview"
+    },
+    {
+      "source": "batch-grill-me",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interview, question"
+    },
+    {
+      "source": "blogwatcher",
+      "target": "news-summary",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: feed, rss"
+    },
+    {
+      "source": "brand-guidelines",
+      "target": "frontend-design",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: typography, visual"
+    },
+    {
+      "source": "brand-guidelines",
+      "target": "pi-customization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: visual, color"
+    },
+    {
+      "source": "brand-guidelines",
+      "target": "theme-factory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: artifact, color"
+    },
+    {
+      "source": "brand-guidelines",
+      "target": "design-token",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: typography, color"
+    },
+    {
+      "source": "caldav-calendar",
+      "target": "gog",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: calendar, google"
+    },
+    {
+      "source": "caveman",
+      "target": "wechat-draft-push",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: article, say"
+    },
+    {
+      "source": "cnb-skill",
+      "target": "github",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interact, prs"
+    },
+    {
+      "source": "context-engineering",
+      "target": "using-agent-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: starting, session"
+    },
+    {
+      "source": "context-engineering",
+      "target": "data-quality-assessment",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quality, rule"
+    },
+    {
+      "source": "content-engine",
+      "target": "crosspost",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: content-engine, linkedin"
+    },
+    {
+      "source": "codebase-design",
+      "target": "design-an-interface",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interface, module"
+    },
+    {
+      "source": "data-exploration",
+      "target": "design-an-interface",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: explore, shape"
+    },
+    {
+      "source": "diagram-builder__skillhub",
+      "target": "poster",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: show_widget, svg"
+    },
+    {
+      "source": "diagram-builder__skillhub",
+      "target": "drawio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: diagram, svg"
+    },
+    {
+      "source": "diagram-builder__skillhub",
+      "target": "mermaid-diagram",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: architecture, flowchart, diagram"
+    },
+    {
+      "source": "diagram-builder__skillhub",
+      "target": "excalidraw-diagram",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: architecture, flowchart, diagram"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "documentation-and-adrs",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: documentation, decision"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "idea-refine",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, through"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, doc"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "product-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: technical, decision"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "source-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: documentation, decision"
+    },
+    {
+      "source": "documentation-and-adrs",
+      "target": "domain-modeling",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: architectural, decision"
+    },
+    {
+      "source": "documentation-and-adrs",
+      "target": "source-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: documentation, decision"
+    },
+    {
+      "source": "domain-modeling",
+      "target": "ubiquitous-language",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: ubiquitou, language"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "domain-modeling",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: decision, maintain"
+    },
+    {
+      "source": "deprecation-and-migration",
+      "target": "domain-modeling",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: maintain, another"
+    },
+    {
+      "source": "domain-modeling",
+      "target": "qa",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: language, domain"
+    },
+    {
+      "source": "edgeone",
+      "target": "edgeone-pages-deploy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: edgeone, tencent"
+    },
+    {
+      "source": "edgeone",
+      "target": "html-deploy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: public, single, live"
+    },
+    {
+      "source": "edgeone-pages-deploy",
+      "target": "netlify-deploy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: production, preview, site"
+    },
+    {
+      "source": "edgeone-pages-deploy",
+      "target": "shippage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: preview, publish"
+    },
+    {
+      "source": "edgeone-pages-deploy",
+      "target": "fullstack-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: full-stack, frontend"
+    },
+    {
+      "source": "edgeone-pages-deploy",
+      "target": "tencent-agent-storage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: preview, tencent"
+    },
+    {
+      "source": "edgeone-pages-deploy",
+      "target": "frontend-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: full-stack, frontend"
+    },
+    {
+      "source": "design-handoff",
+      "target": "flutter-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: covering, state"
+    },
+    {
+      "source": "flutter-dev",
+      "target": "ios-application-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: navigation, covering, pattern"
+    },
+    {
+      "source": "frontend-design",
+      "target": "ui-design-guide__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: direction, visual"
+    },
+    {
+      "source": "frontend-ui-engineering",
+      "target": "pi-tui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, interface"
+    },
+    {
+      "source": "frontend-ui-engineering",
+      "target": "ui-design-guide__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interface, layout"
+    },
+    {
+      "source": "design-handoff",
+      "target": "frontend-ui-engineering",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: responsive, component, layout"
+    },
+    {
+      "source": "frontend-ui-engineering",
+      "target": "impeccable",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, interface"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "frontend-ui-engineering",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, modifying, layout"
+    },
+    {
+      "source": "accessibility-review",
+      "target": "frontend-ui-engineering",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: accessibility, accessible, wcag"
+    },
+    {
+      "source": "frontend-ui-engineering",
+      "target": "pi-web-ui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, uis"
+    },
+    {
+      "source": "gmail",
+      "target": "porteden-email",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: gmail, send"
+    },
+    {
+      "source": "goal-tracker",
+      "target": "habit-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: progress, track, view"
+    },
+    {
+      "source": "goal-tracker",
+      "target": "metrics-tracking",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: dashboard, track, goal"
+    },
+    {
+      "source": "goal-tracker",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: dashboard, track"
+    },
+    {
+      "source": "education",
+      "target": "goal-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: progress, track"
+    },
+    {
+      "source": "goal-tracker",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: milestone, track"
+    },
+    {
+      "source": "deal-tracker",
+      "target": "goal-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: milestone, track, view"
+    },
+    {
+      "source": "email-daily-summary",
+      "target": "goal-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: summarie, log"
+    },
+    {
+      "source": "excel-formula-generator__skillhub",
+      "target": "gog",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: google, sheet"
+    },
+    {
+      "source": "grill-me",
+      "target": "grill-with-docs",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: relentless, interview, sharpen"
+    },
+    {
+      "source": "grill-me",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interview, plan"
+    },
+    {
+      "source": "grill-me",
+      "target": "request-refactor-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interview, plan"
+    },
+    {
+      "source": "grill-with-docs",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interview, plan"
+    },
+    {
+      "source": "grill-with-docs",
+      "target": "request-refactor-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interview, plan"
+    },
+    {
+      "source": "grilling",
+      "target": "idea-refine",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: stress-test, thinking, idea"
+    },
+    {
+      "source": "grilling",
+      "target": "loop-me",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: about, grill"
+    },
+    {
+      "source": "grilling",
+      "target": "the-entrepreneurship-handbook",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, about"
+    },
+    {
+      "source": "grilling",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, plan"
+    },
+    {
+      "source": "grilling",
+      "target": "product-brainstorming",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: thinking, idea"
+    },
+    {
+      "source": "grilling",
+      "target": "restore-legacy-sessions",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, plan"
+    },
+    {
+      "source": "grilling",
+      "target": "ppt-implement",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, about"
+    },
+    {
+      "source": "habit-tracker",
+      "target": "wigolo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: over, time"
+    },
+    {
+      "source": "education",
+      "target": "habit-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: progress, track"
+    },
+    {
+      "source": "habit-tracker",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: track, over, time"
+    },
+    {
+      "source": "deal-tracker",
+      "target": "habit-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: track, view"
+    },
+    {
+      "source": "html-deploy",
+      "target": "shippage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: publish, public"
+    },
+    {
+      "source": "html-deploy",
+      "target": "returns-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: return, quick"
+    },
+    {
+      "source": "idea-refine",
+      "target": "skill_2053082264957227008",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: actionable, through"
+    },
+    {
+      "source": "idea-refine",
+      "target": "skill_2053082332061896704",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, raw"
+    },
+    {
+      "source": "idea-refine",
+      "target": "morning-note",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: actionable, idea"
+    },
+    {
+      "source": "idea-refine",
+      "target": "product-brainstorming",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: assumption, thinking, idea"
+    },
+    {
+      "source": "codebase-design",
+      "target": "improve-codebase-architecture",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: opportunitie, deepening"
+    },
+    {
+      "source": "improve-codebase-architecture",
+      "target": "ponytail-audit",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: codebase, scan"
+    },
+    {
+      "source": "imsg",
+      "target": "yourself-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: history, chat"
+    },
+    {
+      "source": "imsg",
+      "target": "wacli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: history, chat"
+    },
+    {
+      "source": "loop-me",
+      "target": "teach",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workspace, within"
+    },
+    {
+      "source": "make-skill",
+      "target": "setup-ts-deep-modules",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: package, repo"
+    },
+    {
+      "source": "make-skill",
+      "target": "skill_2053082035544330240",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: github, repo"
+    },
+    {
+      "source": "make-skill",
+      "target": "skill_2053082035554123776",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: github, repo"
+    },
+    {
+      "source": "make-skill",
+      "target": "source-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: documentation, library"
+    },
+    {
+      "source": "meeting-minutes-template",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, note"
+    },
+    {
+      "source": "meeting-minutes-template",
+      "target": "meeting-notes-assistant__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: action, item"
+    },
+    {
+      "source": "deal-tracker",
+      "target": "meeting-minutes-template",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: deadline, action, item"
+    },
+    {
+      "source": "client-review",
+      "target": "meeting-minutes-template",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: action, item"
+    },
+    {
+      "source": "meeting-minutes-template",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, note"
+    },
+    {
+      "source": "brand-voice",
+      "target": "novel-writer",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: profile, voice"
+    },
+    {
+      "source": "obsidian",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: obsidian, note"
+    },
+    {
+      "source": "obsidian",
+      "target": "obsidian-vault",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: obsidian, vault, note"
+    },
+    {
+      "source": "performance-optimization",
+      "target": "spec-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: requirement, exist"
+    },
+    {
+      "source": "init-cbc-sdk-web",
+      "target": "performance-optimization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: frontend, backend"
+    },
+    {
+      "source": "diagnose",
+      "target": "performance-optimization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: performance, regression"
+    },
+    {
+      "source": "diagnosing-bugs",
+      "target": "performance-optimization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: performance, regression"
+    },
+    {
+      "source": "fullstack-dev",
+      "target": "performance-optimization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: frontend, backend"
+    },
+    {
+      "source": "performance-optimization",
+      "target": "sql-queries",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: across, querie"
+    },
+    {
+      "source": "performance-optimization",
+      "target": "skill_2053082413554933760",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: querie, time"
+    },
+    {
+      "source": "pi-agent-embedding",
+      "target": "pi-ai-library",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, event"
+    },
+    {
+      "source": "pi-agent-embedding",
+      "target": "pi-rpc-sdk",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: event, mode"
+    },
+    {
+      "source": "pi-agent-embedding",
+      "target": "pi-mom",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, event"
+    },
+    {
+      "source": "pi-agent-embedding",
+      "target": "pi-web-ui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, embedding"
+    },
+    {
+      "source": "pi-ai-library",
+      "target": "pi-rpc-sdk",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: integrating, streaming, event"
+    },
+    {
+      "source": "pi-ai-library",
+      "target": "pi-mom",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, event"
+    },
+    {
+      "source": "memory-stack",
+      "target": "pi-ai-library",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: unified, llm"
+    },
+    {
+      "source": "pi-ai-library",
+      "target": "pi-pods",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, llm"
+    },
+    {
+      "source": "pi-customization",
+      "target": "theme-factory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: color, theme"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "pi-customization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: modifying, visual"
+    },
+    {
+      "source": "accessibility-review",
+      "target": "pi-customization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: keyboard, color"
+    },
+    {
+      "source": "ci-cd-and-automation",
+      "target": "pi-customization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: modifying, setting"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "pi-extension-authoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: command, hook"
+    },
+    {
+      "source": "pi-extension-authoring",
+      "target": "pi-package-authoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: extension, path"
+    },
+    {
+      "source": "pi-extension-authoring",
+      "target": "zcode-configuration-guide",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: extension, command, hook"
+    },
+    {
+      "source": "impeccable",
+      "target": "pi-tui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, interface"
+    },
+    {
+      "source": "pi-tui",
+      "target": "pi-web-ui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, component"
+    },
+    {
+      "source": "pi-pods",
+      "target": "pi-tui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: mariozechner, interface"
+    },
+    {
+      "source": "planning-and-task-breakdown",
+      "target": "spec-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: requirement, spec"
+    },
+    {
+      "source": "planning-and-task-breakdown",
+      "target": "to-tickets",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: break, spec"
+    },
+    {
+      "source": "incremental-implementation",
+      "target": "planning-and-task-breakdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: large, feel, too"
+    },
+    {
+      "source": "ponytail-audit",
+      "target": "ponytail-debt",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: codebase, instead"
+    },
+    {
+      "source": "ponytail-gain",
+      "target": "ponytail-help",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: persistent, one-shot, ponytail"
+    },
+    {
+      "source": "data-context-extractor",
+      "target": "ponytail-help",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, mode"
+    },
+    {
+      "source": "canvas-design",
+      "target": "poster",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: philosophy, poster"
+    },
+    {
+      "source": "impeccable",
+      "target": "poster",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: artifact, poster"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "poster-design-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, event"
+    },
+    {
+      "source": "poster-design-studio",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, social"
+    },
+    {
+      "source": "media-downloader",
+      "target": "poster-design-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: description, media"
+    },
+    {
+      "source": "poster-design-studio",
+      "target": "yourself-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: social, media, photo"
+    },
+    {
+      "source": "ecommerce-listing-image-set",
+      "target": "poster-design-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, photo, turn"
+    },
+    {
+      "source": "ponytail",
+      "target": "prototype",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: question, whether"
+    },
+    {
+      "source": "prototype",
+      "target": "ux-copy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: should, state"
+    },
+    {
+      "source": "saw-st-v8",
+      "target": "saw-st-v8-realign",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: clustering, parameter, spatial"
+    },
+    {
+      "source": "saw-st-v8",
+      "target": "saw-st-v8-reanalyze-lasso",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: parameter, spatial, cloud"
+    },
+    {
+      "source": "saw-st-v8-realign",
+      "target": "saw-st-v8-reanalyze-lasso",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: parameter, cellbin, geojson"
+    },
+    {
+      "source": "metrics-tracking",
+      "target": "shippage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: dashboard, product"
+    },
+    {
+      "source": "shippage",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, doc"
+    },
+    {
+      "source": "shippage",
+      "target": "tencent-agent-storage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: preview, share"
+    },
+    {
+      "source": "research",
+      "target": "shippage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, doc"
+    },
+    {
+      "source": "ecommerce-listing-image-set",
+      "target": "shippage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: listing, product"
+    },
+    {
+      "source": "plugin-creator",
+      "target": "skill-creator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: capabilitie, existing"
+    },
+    {
+      "source": "code-simplification",
+      "target": "skill-creator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: extend, should"
+    },
+    {
+      "source": "dd-meeting-prep",
+      "target": "skill-vetter",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: flag, red"
+    },
+    {
+      "source": "skill_2053082035544330240",
+      "target": "skill_2053082035554123776",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trending, github, period"
+    },
+    {
+      "source": "interview-me",
+      "target": "skill_2053082264957227008",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: through, think"
+    },
+    {
+      "source": "skill_2053082332061896704",
+      "target": "web-scraper",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, llm"
+    },
+    {
+      "source": "product-review",
+      "target": "slack-gif-creator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: validation, concept"
+    },
+    {
+      "source": "code-review",
+      "target": "spec-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: change, coding, spec"
+    },
+    {
+      "source": "teachany",
+      "target": "teachany-pbl",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interactive, courseware, lesson"
+    },
+    {
+      "source": "sprint-planning",
+      "target": "teachany-pbl",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: goal, plan"
+    },
+    {
+      "source": "drawio",
+      "target": "teachany-pbl",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: editable, png"
+    },
+    {
+      "source": "teachany-pbl",
+      "target": "zh-md-to-docx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: editable, lesson, plan"
+    },
+    {
+      "source": "tencent-agent-storage",
+      "target": "tencentcloud-infra__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: tencent, cloud"
+    },
+    {
+      "source": "neodata-financial-search",
+      "target": "the-entrepreneurship-handbook",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, about"
+    },
+    {
+      "source": "ppt-implement",
+      "target": "the-entrepreneurship-handbook",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, about"
+    },
+    {
+      "source": "pdf-to-images",
+      "target": "theme-factory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, doc"
+    },
+    {
+      "source": "notebooklm-studio",
+      "target": "theme-factory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: artifact, slide"
+    },
+    {
+      "source": "cad-quantity-takeoff",
+      "target": "tmagent-cad",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: cad, dwg"
+    },
+    {
+      "source": "cad-editor__skillhub",
+      "target": "tmagent-cad",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: autocad, cad"
+    },
+    {
+      "source": "browser-cash",
+      "target": "tmux",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: scraping, session"
+    },
+    {
+      "source": "qa",
+      "target": "tmux",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interactive, session"
+    },
+    {
+      "source": "request-refactor-plan",
+      "target": "to-tickets",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: break, plan"
+    },
+    {
+      "source": "mcp-builder",
+      "target": "triage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: external, through"
+    },
+    {
+      "source": "close-management",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: progress, tracking"
+    },
+    {
+      "source": "ic-memo",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, document"
+    },
+    {
+      "source": "feature-spec",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, document"
+    },
+    {
+      "source": "docx",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, doc"
+    },
+    {
+      "source": "education",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: material, progress, study"
+    },
+    {
+      "source": "patent-disclosure-writer",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, turn"
+    },
+    {
+      "source": "tutor-skills",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: note, doc"
+    },
+    {
+      "source": "tutor-skills",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, note"
+    },
+    {
+      "source": "obsidian-vault",
+      "target": "tutor-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: obsidian, note"
+    },
+    {
+      "source": "ui-design-guide__skillhub",
+      "target": "wechat-miniprogram",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: program, mini"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "ui-design-guide__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: layout, visual"
+    },
+    {
+      "source": "gui-automation",
+      "target": "ui-design-guide__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: layout, visual"
+    },
+    {
+      "source": "restore-legacy-sessions",
+      "target": "wayfinder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: session, plan"
+    },
+    {
+      "source": "education",
+      "target": "wayfinder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: session, plan"
+    },
+    {
+      "source": "web-deploy",
+      "target": "web-deploy-github",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: hosting, website, github"
+    },
+    {
+      "source": "skill_2053078982015520768",
+      "target": "web-scraper",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, fallback"
+    },
+    {
+      "source": "qa",
+      "target": "wechat-wcdb-local-extract",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: session, github"
+    },
+    {
+      "source": "thesis-tracker",
+      "target": "wigolo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: over, time"
+    },
+    {
+      "source": "writing-beats",
+      "target": "writing-shape",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: material, exploit, raw"
+    },
+    {
+      "source": "fullstack-dev",
+      "target": "init-cbc-sdk-web",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: frontend, backend"
+    },
+    {
+      "source": "init-cbc-sdk-web",
+      "target": "web-artifacts-builder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: frontend, react"
+    },
+    {
+      "source": "fx-carry-trade",
+      "target": "statistical-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, trend"
+    },
+    {
+      "source": "statistical-analysis",
+      "target": "stock-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: detection, trend"
+    },
+    {
+      "source": "design-handoff",
+      "target": "design-system",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, state"
+    },
+    {
+      "source": "design-handoff",
+      "target": "modern-web-app",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, state"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "design-handoff",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, layout"
+    },
+    {
+      "source": "audit-support",
+      "target": "design-system",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: documentation, audit"
+    },
+    {
+      "source": "design-system",
+      "target": "modern-web-app",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, state"
+    },
+    {
+      "source": "design-system",
+      "target": "ux-copy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: naming, state"
+    },
+    {
+      "source": "check-model",
+      "target": "design-system",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: hardcoded, audit"
+    },
+    {
+      "source": "research-synthesis",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: synthesize, interview, usability"
+    },
+    {
+      "source": "earnings-preview-beta",
+      "target": "research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: transcript, research"
+    },
+    {
+      "source": "research-synthesis",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: synthesize, interview, research"
+    },
+    {
+      "source": "restore-legacy-sessions",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, plan"
+    },
+    {
+      "source": "education",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: question, plan"
+    },
+    {
+      "source": "design-critique",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: usability, trigger"
+    },
+    {
+      "source": "user-research",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: synthesize, interview, research"
+    },
+    {
+      "source": "request-refactor-plan",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interview, plan"
+    },
+    {
+      "source": "research",
+      "target": "user-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: question, research"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "earnings-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: coverage, earning"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "morning-note",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: coverage, event"
+    },
+    {
+      "source": "buyer-list",
+      "target": "catalyst-calendar",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: prioritize, universe"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "roadmap-management",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: prioritize, product"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "doubt-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: decision, product"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "product-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: decision, product"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: catalyst, maintain"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "deal-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: maintain, upcoming"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "cn-ecommerce-search",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, across"
+    },
+    {
+      "source": "catalyst-calendar",
+      "target": "model-update",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: earning, macro"
+    },
+    {
+      "source": "earnings-analysis",
+      "target": "earnings-preview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quarterly, earning"
+    },
+    {
+      "source": "earnings-analysis",
+      "target": "equity-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, equity"
+    },
+    {
+      "source": "earnings-analysis",
+      "target": "earnings-preview-beta",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, earning, equity"
+    },
+    {
+      "source": "earnings-analysis",
+      "target": "initiating-coverage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, equity"
+    },
+    {
+      "source": "earnings-analysis",
+      "target": "model-update",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quarterly, earning"
+    },
+    {
+      "source": "earnings-analysis",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, research"
+    },
+    {
+      "source": "earnings-preview",
+      "target": "model-update",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quarterly, estimate, earning"
+    },
+    {
+      "source": "idea-generation",
+      "target": "morning-note",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: stock, idea"
+    },
+    {
+      "source": "equity-research",
+      "target": "idea-generation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, stock"
+    },
+    {
+      "source": "deal-screening",
+      "target": "idea-generation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, screening, screen"
+    },
+    {
+      "source": "idea-generation",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quantitative, research"
+    },
+    {
+      "source": "morning-note",
+      "target": "teaser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: designed, draft"
+    },
+    {
+      "source": "morning-note",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: draft, note"
+    },
+    {
+      "source": "competitive-analysis",
+      "target": "sector-overview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: competitive, positioning, landscape"
+    },
+    {
+      "source": "financial-plan",
+      "target": "sector-overview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, covering"
+    },
+    {
+      "source": "funding-digest",
+      "target": "sector-overview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: market, sector"
+    },
+    {
+      "source": "cloudflare",
+      "target": "sector-overview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, covering"
+    },
+    {
+      "source": "ios-application-dev",
+      "target": "sector-overview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: covering, dynamic"
+    },
+    {
+      "source": "dd-checklist",
+      "target": "sector-overview",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, sector"
+    },
+    {
+      "source": "audit-support",
+      "target": "sox-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: selection, workpaper, control"
+    },
+    {
+      "source": "close-management",
+      "target": "journal-entry-prep",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: month-end, close"
+    },
+    {
+      "source": "close-management",
+      "target": "sox-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: planning, close"
+    },
+    {
+      "source": "close-management",
+      "target": "dd-checklist",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: tracking, statu"
+    },
+    {
+      "source": "financial-statements",
+      "target": "variance-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: period-over-period, financial"
+    },
+    {
+      "source": "buyer-list",
+      "target": "financial-statements",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, preparing"
+    },
+    {
+      "source": "financial-statements",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, preparing"
+    },
+    {
+      "source": "financial-plan",
+      "target": "financial-statements",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, cash, flow"
+    },
+    {
+      "source": "dcf-model",
+      "target": "financial-statements",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, cash, flow"
+    },
+    {
+      "source": "check-model",
+      "target": "financial-statements",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, balance, sheet"
+    },
+    {
+      "source": "financial-statements",
+      "target": "reconciliation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: statement, balance"
+    },
+    {
+      "source": "3-statements",
+      "target": "financial-statements",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, statement, balance"
+    },
+    {
+      "source": "finance-workflows",
+      "target": "financial-statements",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: statement, income"
+    },
+    {
+      "source": "journal-entry",
+      "target": "journal-entry-prep",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: amortization, depreciation, supporting"
+    },
+    {
+      "source": "finance-workflows",
+      "target": "journal-entry-prep",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: journal, entrie"
+    },
+    {
+      "source": "client-report",
+      "target": "sox-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quarterly, annual"
+    },
+    {
+      "source": "financial-plan",
+      "target": "sox-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: planning, annual"
+    },
+    {
+      "source": "financial-plan",
+      "target": "variance-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, analysi"
+    },
+    {
+      "source": "portfolio-monitoring",
+      "target": "variance-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, variance, budget"
+    },
+    {
+      "source": "fixed-income-portfolio",
+      "target": "variance-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, analysi"
+    },
+    {
+      "source": "model-update",
+      "target": "variance-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, change"
+    },
+    {
+      "source": "competitive-analysis",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, memo"
+    },
+    {
+      "source": "competitive-analysis",
+      "target": "earnings-preview-beta",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: competitor, landscape"
+    },
+    {
+      "source": "competitive-analysis",
+      "target": "funding-digest",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: across, market"
+    },
+    {
+      "source": "check-deck",
+      "target": "competitive-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, across"
+    },
+    {
+      "source": "find-skills",
+      "target": "pptx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: capabilitie, extending, discover"
+    },
+    {
+      "source": "buyer-list",
+      "target": "merger-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: potential, preparing"
+    },
+    {
+      "source": "buyer-list",
+      "target": "process-letter",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: sell-side, processe"
+    },
+    {
+      "source": "buyer-list",
+      "target": "teaser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: sell-side, processe, buyer"
+    },
+    {
+      "source": "buyer-list",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, preparing"
+    },
+    {
+      "source": "buyer-list",
+      "target": "cim-builder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: sell-side, organize, processe"
+    },
+    {
+      "source": "merger-model",
+      "target": "portfolio-rebalance",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: transaction, allocation"
+    },
+    {
+      "source": "process-letter",
+      "target": "teaser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: sell-side, interest, processe"
+    },
+    {
+      "source": "cim-builder",
+      "target": "process-letter",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: sell-side, processe, draft"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "strip-profile",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, pitch, slide"
+    },
+    {
+      "source": "create-ppt",
+      "target": "strip-profile",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, slide"
+    },
+    {
+      "source": "lbo-model",
+      "target": "strip-profile",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, investment, material"
+    },
+    {
+      "source": "pitch-deck",
+      "target": "strip-profile",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, banking, pitch"
+    },
+    {
+      "source": "check-deck",
+      "target": "strip-profile",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, investment, banking"
+    },
+    {
+      "source": "deal-screening",
+      "target": "strip-profile",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, material"
+    },
+    {
+      "source": "deal-screening",
+      "target": "teaser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: one-page, teaser"
+    },
+    {
+      "source": "cim-builder",
+      "target": "teaser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: sell-side, processe, draft"
+    },
+    {
+      "source": "bond-futures-basis",
+      "target": "bond-relative-value",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pricing, curve, yield"
+    },
+    {
+      "source": "bond-futures-basis",
+      "target": "macro-rates-monitor",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: curve, yield"
+    },
+    {
+      "source": "bond-futures-basis",
+      "target": "swap-curve-strategy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: opportunitie, identifying, pricing"
+    },
+    {
+      "source": "bond-futures-basis",
+      "target": "fixed-income-portfolio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pricing, bond"
+    },
+    {
+      "source": "bond-futures-basis",
+      "target": "option-vol-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pricing, assess, option"
+    },
+    {
+      "source": "bond-relative-value",
+      "target": "fx-carry-trade",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, combining"
+    },
+    {
+      "source": "bond-relative-value",
+      "target": "macro-rates-monitor",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, combining, curve"
+    },
+    {
+      "source": "bond-relative-value",
+      "target": "swap-curve-strategy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, pricing, curve"
+    },
+    {
+      "source": "bond-relative-value",
+      "target": "fixed-income-portfolio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, computing, scenario"
+    },
+    {
+      "source": "bond-relative-value",
+      "target": "option-vol-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, combining, pricing"
+    },
+    {
+      "source": "equity-research",
+      "target": "fx-carry-trade",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: historical, combining, price"
+    },
+    {
+      "source": "equity-research",
+      "target": "macro-rates-monitor",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: macroeconomic, combining"
+    },
+    {
+      "source": "earnings-preview-beta",
+      "target": "equity-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, equity"
+    },
+    {
+      "source": "equity-research",
+      "target": "initiating-coverage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, equity"
+    },
+    {
+      "source": "dcf-model",
+      "target": "equity-research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, analyst, equity"
+    },
+    {
+      "source": "equity-research",
+      "target": "option-vol-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: historical, combining, price"
+    },
+    {
+      "source": "equity-research",
+      "target": "tavily",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, research"
+    },
+    {
+      "source": "fx-carry-trade",
+      "target": "macro-rates-monitor",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, combining, rate"
+    },
+    {
+      "source": "fx-carry-trade",
+      "target": "swap-curve-strategy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: opportunitie, analyzing, interest"
+    },
+    {
+      "source": "fx-carry-trade",
+      "target": "option-vol-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: historical, volatility, analyzing"
+    },
+    {
+      "source": "macro-rates-monitor",
+      "target": "swap-curve-strategy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, inflation, curve"
+    },
+    {
+      "source": "macro-rates-monitor",
+      "target": "option-vol-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, combining"
+    },
+    {
+      "source": "fixed-income-portfolio",
+      "target": "swap-curve-strategy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, pricing"
+    },
+    {
+      "source": "option-vol-analysis",
+      "target": "swap-curve-strategy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, pricing"
+    },
+    {
+      "source": "frontend-spec__skillhub",
+      "target": "modern-web-app",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: react, css"
+    },
+    {
+      "source": "modern-web-app",
+      "target": "web-artifacts-builder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: tailwind, modern, shadcn"
+    },
+    {
+      "source": "lucide-icons",
+      "target": "modern-web-app",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: typescript, component, react"
+    },
+    {
+      "source": "dd-meeting-prep",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: diligence, due"
+    },
+    {
+      "source": "dd-meeting-prep",
+      "target": "education",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: question, session"
+    },
+    {
+      "source": "dd-checklist",
+      "target": "dd-meeting-prep",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: diligence, due, red"
+    },
+    {
+      "source": "feature-spec",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, document"
+    },
+    {
+      "source": "gongwen-word",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, draft"
+    },
+    {
+      "source": "ic-memo",
+      "target": "lbo-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, committee"
+    },
+    {
+      "source": "dd-checklist",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: diligence, due"
+    },
+    {
+      "source": "cim-builder",
+      "target": "ic-memo",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, draft"
+    },
+    {
+      "source": "ic-memo",
+      "target": "user-research-synthesis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, synthesize"
+    },
+    {
+      "source": "ic-memo",
+      "target": "skill_2053082253572640768",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: approval, document"
+    },
+    {
+      "source": "portfolio-monitoring",
+      "target": "value-creation-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: plan, kpi"
+    },
+    {
+      "source": "feature-spec",
+      "target": "metrics-tracking",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, metric"
+    },
+    {
+      "source": "feature-spec",
+      "target": "patent-disclosure-writer",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, prd"
+    },
+    {
+      "source": "feature-spec",
+      "target": "product-management-workflows",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, metric"
+    },
+    {
+      "source": "feature-spec",
+      "target": "scene-planner",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: requirement, structured"
+    },
+    {
+      "source": "cn-ecommerce-search",
+      "target": "feature-spec",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structured, product"
+    },
+    {
+      "source": "metrics-tracking",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: dashboard, track"
+    },
+    {
+      "source": "metrics-tracking",
+      "target": "product-management-workflows",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, metric"
+    },
+    {
+      "source": "product-brainstorming",
+      "target": "product-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: solution, product"
+    },
+    {
+      "source": "product-management-workflows",
+      "target": "roadmap-management",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: product, roadmap"
+    },
+    {
+      "source": "portfolio-monitoring",
+      "target": "sprint-planning",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: against, plan"
+    },
+    {
+      "source": "slides-maker__skillhub",
+      "target": "stakeholder-comms",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: stakeholder, audience, statu"
+    },
+    {
+      "source": "stakeholder-comms",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: launch, draft"
+    },
+    {
+      "source": "dd-checklist",
+      "target": "stakeholder-comms",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: tailored, statu"
+    },
+    {
+      "source": "earnings-preview-beta",
+      "target": "initiating-coverage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, equity"
+    },
+    {
+      "source": "dcf-model",
+      "target": "earnings-preview-beta",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: valuation, equity"
+    },
+    {
+      "source": "earnings-preview-beta",
+      "target": "model-update",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: valuation, earning"
+    },
+    {
+      "source": "client-report",
+      "target": "portfolio-rebalance",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: allocation, portfolio, trigger"
+    },
+    {
+      "source": "client-report",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: performance, portfolio, quarterly"
+    },
+    {
+      "source": "client-report",
+      "target": "client-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: performance, allocation, portfolio"
+    },
+    {
+      "source": "dcf-model",
+      "target": "financial-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, projection, financial"
+    },
+    {
+      "source": "financial-plan",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, plan"
+    },
+    {
+      "source": "cloudflare",
+      "target": "financial-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: comprehensive, covering"
+    },
+    {
+      "source": "education",
+      "target": "financial-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: education, plan"
+    },
+    {
+      "source": "check-model",
+      "target": "financial-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, cash, flow"
+    },
+    {
+      "source": "3-statements",
+      "target": "financial-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, cash, flow"
+    },
+    {
+      "source": "portfolio-rebalance",
+      "target": "tax-loss-harvesting",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, across, sale"
+    },
+    {
+      "source": "data-quality-assessment",
+      "target": "portfolio-rebalance",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: recommendation, rule"
+    },
+    {
+      "source": "ponytail-gain",
+      "target": "portfolio-rebalance",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, cost"
+    },
+    {
+      "source": "client-review",
+      "target": "portfolio-rebalance",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: allocation, portfolio"
+    },
+    {
+      "source": "tax-loss-harvesting",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: position, track"
+    },
+    {
+      "source": "android-dev",
+      "target": "ios-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, inspect, lightly"
+    },
+    {
+      "source": "diagnosing-plugins",
+      "target": "plugin-creator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: marketplace, zcode"
+    },
+    {
+      "source": "diagnosing-skills",
+      "target": "restore-legacy-sessions",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, zcode"
+    },
+    {
+      "source": "education",
+      "target": "restore-legacy-sessions",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: session, plan"
+    },
+    {
+      "source": "diagnosing-hooks",
+      "target": "restore-legacy-sessions",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, zcode"
+    },
+    {
+      "source": "diagnosing-commands",
+      "target": "zcode-configuration-guide",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: command, zcode"
+    },
+    {
+      "source": "diagnosing-plugins",
+      "target": "diagnosing-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: zcode, but"
+    },
+    {
+      "source": "diagnosing-hooks",
+      "target": "diagnosing-skills",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, zcode"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "create-ppt",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, slide, pptx"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "ppt-gen",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck, pptx"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck, pptx"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pitch, slide, deck"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "check-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, pitch, slide"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "notebooklm-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "architecture-diagram",
+      "target": "drawio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: draw.io, drawio, png"
+    },
+    {
+      "source": "architecture-diagram",
+      "target": "infographic-html-poster",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: png, svg"
+    },
+    {
+      "source": "architecture-diagram",
+      "target": "wechat-wenyan-publish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: png, svg"
+    },
+    {
+      "source": "biaoshu-writer-pro__skillhub",
+      "target": "doc-compare",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, txt"
+    },
+    {
+      "source": "biaoshu-writer-pro__skillhub",
+      "target": "pdfkit-py",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, txt"
+    },
+    {
+      "source": "biaoshu-writer-pro__skillhub",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, txt"
+    },
+    {
+      "source": "cad-editor__skillhub",
+      "target": "cad-quantity-takeoff",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: cad, dxf"
+    },
+    {
+      "source": "cad-quantity-takeoff",
+      "target": "dxf-engineering-skill__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: cad, dxf"
+    },
+    {
+      "source": "canvas-design",
+      "target": "drawio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: should, png"
+    },
+    {
+      "source": "canvas-design",
+      "target": "jyw-images-to-docx__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, should"
+    },
+    {
+      "source": "canvas-design",
+      "target": "minimax-pdf",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: beautiful, visual"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "canvas-design",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: should, visual"
+    },
+    {
+      "source": "canvas-design",
+      "target": "frontend-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: visual, art"
+    },
+    {
+      "source": "contract-review-v2",
+      "target": "doc-compare",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, txt"
+    },
+    {
+      "source": "contract-review-v2",
+      "target": "gongwenformat-pro",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, txt"
+    },
+    {
+      "source": "create-ppt",
+      "target": "ppt-gen",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, pptx"
+    },
+    {
+      "source": "create-ppt",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, pptx"
+    },
+    {
+      "source": "check-deck",
+      "target": "create-ppt",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, slide"
+    },
+    {
+      "source": "code-review-and-quality",
+      "target": "data-quality-assessment",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quality, assess"
+    },
+    {
+      "source": "doc-compare",
+      "target": "excel-processing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "doc-compare",
+      "target": "gongwenformat-pro",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, txt"
+    },
+    {
+      "source": "doc-compare",
+      "target": "markitdown-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, markdown"
+    },
+    {
+      "source": "doc-compare",
+      "target": "mh-mineru",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, pptx, xlsx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx, xlsx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "minimax-xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "doc-compare",
+      "target": "paperless-business-system-from-files__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: csv, txt"
+    },
+    {
+      "source": "doc-compare",
+      "target": "pdfkit-py",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx, txt"
+    },
+    {
+      "source": "doc-compare",
+      "target": "ppt-win32com-editor__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "pptx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv, txt"
+    },
+    {
+      "source": "doc-compare",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "doc-compare",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, pptx, xlsx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, csv"
+    },
+    {
+      "source": "doc-compare",
+      "target": "excel-generation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, pptx, xlsx"
+    },
+    {
+      "source": "doc-compare",
+      "target": "excel-handler",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "doc-compare",
+      "target": "tencent-pptx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "drawio",
+      "target": "infographic-html-poster",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: png, svg"
+    },
+    {
+      "source": "drawio",
+      "target": "wechat-wenyan-publish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: png, svg"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: microsoft, office"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "paperless-business-system-from-files__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: window, maco"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "ppt-polish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, wps"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "windows-app-lag-diagnosis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, window, wps"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "wps-office-suite__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, wps"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "xlsx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: microsoft, openpyxl"
+    },
+    {
+      "source": "excel-auto-zh",
+      "target": "screen-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: window, maco"
+    },
+    {
+      "source": "check-model",
+      "target": "excel-formula-generator__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: formula, sheet"
+    },
+    {
+      "source": "excel-processing",
+      "target": "minimax-xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-processing",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv, xls"
+    },
+    {
+      "source": "excel-processing",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-processing",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-generation",
+      "target": "excel-processing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-handler",
+      "target": "excel-processing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv, xls"
+    },
+    {
+      "source": "excel-sync-bitable__skillhub",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: existing, csv"
+    },
+    {
+      "source": "excel-sync-bitable__skillhub",
+      "target": "notebooklm-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: import, table"
+    },
+    {
+      "source": "excel-sync-bitable__skillhub",
+      "target": "skill_2053082253572640768",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: feishu, table"
+    },
+    {
+      "source": "excel-xlsx",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: microsoft, xlsx"
+    },
+    {
+      "source": "excel-xlsx",
+      "target": "officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: formatting, inspect"
+    },
+    {
+      "source": "excel-xlsx",
+      "target": "xlsx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: microsoft, xlsx"
+    },
+    {
+      "source": "gongwen-format",
+      "target": "gongwenformat-pro",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: 9704-2012, markdown"
+    },
+    {
+      "source": "gongwen-word",
+      "target": "md-to-pdf-cjk",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, chinese"
+    },
+    {
+      "source": "gongwen-word",
+      "target": "patent-disclosure-writer",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, chinese"
+    },
+    {
+      "source": "gongwen-word",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chinese, draft"
+    },
+    {
+      "source": "cim-builder",
+      "target": "gongwen-word",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, draft"
+    },
+    {
+      "source": "gongwen-word",
+      "target": "skill_2053082253572640768",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, official"
+    },
+    {
+      "source": "gongwen-word",
+      "target": "wechat-draft-push",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: official, draft"
+    },
+    {
+      "source": "gongwenformat-pro",
+      "target": "gov-doc-typeset",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: 9704-2012, txt"
+    },
+    {
+      "source": "hsz-ai-bank-receipt-recognition",
+      "target": "image-shrink-for-upload",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpeg, jpg, png"
+    },
+    {
+      "source": "hsz-ai-bank-receipt-recognition",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, ocr, png"
+    },
+    {
+      "source": "hsz-ai-bank-receipt-recognition",
+      "target": "image-compressor",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "hsz-ai-bank-receipt-recognition",
+      "target": "image-upscale__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "html-ppt-skill__skillhub",
+      "target": "tencent-pptx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: tencent-pptx, pptx"
+    },
+    {
+      "source": "html-to-pdf-edge-headless",
+      "target": "tencent-novnc-chromium-cdp",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: window, edge"
+    },
+    {
+      "source": "image-shrink-for-upload",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "image-compressor",
+      "target": "image-shrink-for-upload",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "image-shrink-for-upload",
+      "target": "image-upscale__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "image-to-xlsx__skillhub",
+      "target": "minimax-xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: spreadsheet, xlsx"
+    },
+    {
+      "source": "image-to-xlsx__skillhub",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: spreadsheet, xlsx"
+    },
+    {
+      "source": "image-to-xlsx__skillhub",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, xlsx"
+    },
+    {
+      "source": "jyw-images-to-docx__skillhub",
+      "target": "markitdown-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, image"
+    },
+    {
+      "source": "jyw-images-to-docx__skillhub",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, image"
+    },
+    {
+      "source": "kdocs",
+      "target": "kdocs-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: 365.kdocs.cn, www.kdocs.cn, kdoc"
+    },
+    {
+      "source": "markitdown-skill",
+      "target": "md-to-pdf-cjk",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, markdown"
+    },
+    {
+      "source": "markitdown-skill",
+      "target": "mh-mineru",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, ocr"
+    },
+    {
+      "source": "markitdown-skill",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, microsoft"
+    },
+    {
+      "source": "markitdown-skill",
+      "target": "officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, document"
+    },
+    {
+      "source": "markitdown-skill",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, ocr"
+    },
+    {
+      "source": "markitdown",
+      "target": "markitdown-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: transcription, markitdown, document"
+    },
+    {
+      "source": "image-viewer",
+      "target": "markitdown-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, ocr"
+    },
+    {
+      "source": "md-to-pdf-cjk",
+      "target": "zh-md-to-docx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, chinese"
+    },
+    {
+      "source": "markitdown",
+      "target": "md-to-pdf-cjk",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, markdown"
+    },
+    {
+      "source": "md-to-pdf-cjk",
+      "target": "patent-disclosure-writer",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: document, chinese"
+    },
+    {
+      "source": "md-to-pdf-cjk",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: reliable, without"
+    },
+    {
+      "source": "deal-tracker",
+      "target": "meeting-notes-assistant__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: action, item"
+    },
+    {
+      "source": "client-review",
+      "target": "meeting-notes-assistant__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: action, item"
+    },
+    {
+      "source": "mh-mineru",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx, xlsx"
+    },
+    {
+      "source": "mh-mineru",
+      "target": "pdfkit-py",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx, ocr"
+    },
+    {
+      "source": "mh-mineru",
+      "target": "ppt-polish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx"
+    },
+    {
+      "source": "mh-mineru",
+      "target": "wpscli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, ocr"
+    },
+    {
+      "source": "mh-mineru",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx, xlsx"
+    },
+    {
+      "source": "markitdown",
+      "target": "mh-mineru",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, office, pptx"
+    },
+    {
+      "source": "excel-generation",
+      "target": "mh-mineru",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, pptx, xlsx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "pdfkit-py",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "ppt-polish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "ppt-win32com-editor__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "pptx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "video-to-ppt",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, png"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "xlsx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: microsoft, xlsx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx, xlsx"
+    },
+    {
+      "source": "markitdown",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx, xlsx"
+    },
+    {
+      "source": "excel-generation",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx"
+    },
+    {
+      "source": "mh-officecli",
+      "target": "tencent-pptx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "infographic-html-poster",
+      "target": "mh-officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: 100, png"
+    },
+    {
+      "source": "minimax-docx",
+      "target": "officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: formatting, document"
+    },
+    {
+      "source": "3-statements",
+      "target": "minimax-docx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: existing, fill"
+    },
+    {
+      "source": "cim-builder",
+      "target": "minimax-docx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: formatting, document"
+    },
+    {
+      "source": "minimax-xlsx",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv, tsv"
+    },
+    {
+      "source": "minimax-xlsx",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: spreadsheet, open, xlsm"
+    },
+    {
+      "source": "markitdown",
+      "target": "minimax-xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-generation",
+      "target": "minimax-xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-handler",
+      "target": "minimax-xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "cim-builder",
+      "target": "officecli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: formatting, document"
+    },
+    {
+      "source": "paperless-business-system-from-files__skillhub",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: csv, txt"
+    },
+    {
+      "source": "markitdown",
+      "target": "paperless-business-system-from-files__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: csv, zip"
+    },
+    {
+      "source": "paperless-business-system-from-files__skillhub",
+      "target": "screen-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: window, maco"
+    },
+    {
+      "source": "patent-disclosure-skill__skillhub",
+      "target": "patent-disclosure-writer",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: patent, brief"
+    },
+    {
+      "source": "notebooklm-studio",
+      "target": "pdf",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: table, text"
+    },
+    {
+      "source": "markitdown",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, ocr"
+    },
+    {
+      "source": "image-viewer",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, ocr"
+    },
+    {
+      "source": "image-compressor",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "image-upscale__skillhub",
+      "target": "pdf-to-images",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, jpg, png"
+    },
+    {
+      "source": "pdfkit-py",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, txt"
+    },
+    {
+      "source": "pdfkit-py",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx"
+    },
+    {
+      "source": "markitdown",
+      "target": "pdfkit-py",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx, ocr"
+    },
+    {
+      "source": "excel-generation",
+      "target": "pdfkit-py",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx"
+    },
+    {
+      "source": "ppt-gen",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck, pptx"
+    },
+    {
+      "source": "pitch-deck",
+      "target": "ppt-gen",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "check-deck",
+      "target": "ppt-gen",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "notebooklm-studio",
+      "target": "ppt-gen",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "ppt-polish",
+      "target": "windows-app-lag-diagnosis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, wps"
+    },
+    {
+      "source": "ppt-polish",
+      "target": "wps-office-suite__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, wps"
+    },
+    {
+      "source": "ppt-polish",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx"
+    },
+    {
+      "source": "markitdown",
+      "target": "ppt-polish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx"
+    },
+    {
+      "source": "ppt-win32com-editor__skillhub",
+      "target": "pptx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx-generator, powerpoint, pptx"
+    },
+    {
+      "source": "ppt-win32com-editor__skillhub",
+      "target": "tencent-pptx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "pptx-generator",
+      "target": "tencent-pptx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, pptx"
+    },
+    {
+      "source": "seedance-prompt-expert__skillhub",
+      "target": "seedance2-new__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: seedance, 2.0"
+    },
+    {
+      "source": "skills-constitution",
+      "target": "skills-constitution.bak-20260915-142514",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: changelog.md, workbuddy, chatgpt"
+    },
+    {
+      "source": "agent-data-migration-recovery",
+      "target": "skills-constitution",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, claude, cursor"
+    },
+    {
+      "source": "agentmemory",
+      "target": "skills-constitution",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, cursor, gemini"
+    },
+    {
+      "source": "mh-omniRoute",
+      "target": "skills-constitution",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, cursor"
+    },
+    {
+      "source": "agent-data-migration-recovery",
+      "target": "skills-constitution.bak-20260915-142514",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, claude, cursor"
+    },
+    {
+      "source": "agentmemory",
+      "target": "skills-constitution.bak-20260915-142514",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, cursor, gemini"
+    },
+    {
+      "source": "mh-omniRoute",
+      "target": "skills-constitution.bak-20260915-142514",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, cursor"
+    },
+    {
+      "source": "pitch-deck",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "check-deck",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "product-management-workflows",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: stakeholder, research"
+    },
+    {
+      "source": "notebooklm-studio",
+      "target": "slides-maker__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "smart-charts__skillhub",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv, tsv"
+    },
+    {
+      "source": "markitdown",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-generation",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-handler",
+      "target": "smart-charts__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv, xls"
+    },
+    {
+      "source": "guizang-ppt-skill",
+      "target": "web-flip-ppt",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: swiss, webgl"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "win-file-lock-release",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, without"
+    },
+    {
+      "source": "windows-app-lag-diagnosis",
+      "target": "wps-office-suite__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, wps"
+    },
+    {
+      "source": "word-doc-generator",
+      "target": "xlsx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: microsoft, 1f4e79, 2b579a"
+    },
+    {
+      "source": "token-efficient-task-router",
+      "target": "workbuddy-meeting-assistant",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, ima"
+    },
+    {
+      "source": "markitdown",
+      "target": "wpscli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, ocr"
+    },
+    {
+      "source": "markitdown",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-generation",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-handler",
+      "target": "xlsx",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "excel-handler",
+      "target": "xlsx-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: openpyxl, xlsx"
+    },
+    {
+      "source": "markitdown",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: office, pptx, xlsx"
+    },
+    {
+      "source": "excel-generation",
+      "target": "zagens-office",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: pptx, xlsx"
+    },
+    {
+      "source": "dcf-model",
+      "target": "initiating-coverage",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, equity"
+    },
+    {
+      "source": "datapack-builder",
+      "target": "dcf-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, filing, sec"
+    },
+    {
+      "source": "check-model",
+      "target": "dcf-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, cash, flow"
+    },
+    {
+      "source": "dcf-model",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: flow, real"
+    },
+    {
+      "source": "dcf-model",
+      "target": "model-update",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, valuation"
+    },
+    {
+      "source": "3-statements",
+      "target": "dcf-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, cash, flow"
+    },
+    {
+      "source": "lbo-model",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, fill"
+    },
+    {
+      "source": "check-deck",
+      "target": "lbo-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: presentation, investment"
+    },
+    {
+      "source": "deal-screening",
+      "target": "lbo-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, material"
+    },
+    {
+      "source": "excel-generation",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: markdown, pptx, xlsx"
+    },
+    {
+      "source": "excel-handler",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "image-viewer",
+      "target": "markitdown",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, ocr"
+    },
+    {
+      "source": "funding-digest",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: powerpoint, slide"
+    },
+    {
+      "source": "check-deck",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: investment, banking, pitch"
+    },
+    {
+      "source": "notebooklm-studio",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: source, slide, deck"
+    },
+    {
+      "source": "3-statements",
+      "target": "pitch-deck",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: populate, fill"
+    },
+    {
+      "source": "education",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: track, plan"
+    },
+    {
+      "source": "portfolio-monitoring",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: portfolio, track"
+    },
+    {
+      "source": "client-review",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: performance, portfolio, summary"
+    },
+    {
+      "source": "model-update",
+      "target": "portfolio-monitoring",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, quarterly, flag"
+    },
+    {
+      "source": "excel-generation",
+      "target": "excel-handler",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: xlsx, csv"
+    },
+    {
+      "source": "check-deck",
+      "target": "funding-digest",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: across, slide"
+    },
+    {
+      "source": "design-token",
+      "target": "doc-typeset",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: doc-formatter, doc-typeset, css"
+    },
+    {
+      "source": "design-token",
+      "target": "html-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: doc-formatter, design-token, doc-typeset"
+    },
+    {
+      "source": "doc-typeset",
+      "target": "html-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: doc-formatter, doc-typeset"
+    },
+    {
+      "source": "agent-browser__skillhub",
+      "target": "browser-act",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "agent-browser__skillhub",
+      "target": "browserwing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: accessibility, automation, browser"
+    },
+    {
+      "source": "agent-browser__skillhub",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "agent-browser__skillhub",
+      "target": "skill_2053081406314844160",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: headless, browser"
+    },
+    {
+      "source": "agent-browser__skillhub",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "agent-browser__skillhub",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "agent-data-migration-recovery",
+      "target": "agentmemory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, cursor, code"
+    },
+    {
+      "source": "agent-data-migration-recovery",
+      "target": "git-guardrails-claude-code",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "agent-data-migration-recovery",
+      "target": "mh-omniRoute",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, cursor, code"
+    },
+    {
+      "source": "agent-data-migration-recovery",
+      "target": "mh-voicebox",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "andrej-karpathy-skills__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: coding, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "code-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: coding, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "git-guardrails-claude-code",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "mh-codebase-memory-mcp",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: memory, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "mh-omniRoute",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: copilot, claude, cursor"
+    },
+    {
+      "source": "agentmemory",
+      "target": "mh-voicebox",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "ponytail-gain",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: persistent, code"
+    },
+    {
+      "source": "agentmemory",
+      "target": "cognee-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: apache-2.0, memory"
+    },
+    {
+      "source": "agentmemory",
+      "target": "graphiti-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: apache-2.0, memory"
+    },
+    {
+      "source": "agentmemory",
+      "target": "mem0-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: apache-2.0, persistent, memory"
+    },
+    {
+      "source": "andrej-karpathy-skills__skillhub",
+      "target": "code-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: coding, code"
+    },
+    {
+      "source": "andrej-karpathy-skills__skillhub",
+      "target": "code-review-and-quality",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: reviewing, code"
+    },
+    {
+      "source": "andrej-karpathy-skills__skillhub",
+      "target": "code-simplification",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: refactoring, reviewing, code"
+    },
+    {
+      "source": "andrej-karpathy-skills__skillhub",
+      "target": "mh-omniRoute",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: code, llm"
+    },
+    {
+      "source": "browser-act",
+      "target": "browserwing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "browser-act",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "browser-act",
+      "target": "skill_2053081406314844160",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, command"
+    },
+    {
+      "source": "browser-act",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "browser-act",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, command"
+    },
+    {
+      "source": "browser-act",
+      "target": "skill_2053078982015520768",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, command"
+    },
+    {
+      "source": "browser-act",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "browserwing",
+      "target": "ios-application-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: accessibility, navigation"
+    },
+    {
+      "source": "browserwing",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, screenshot, browser"
+    },
+    {
+      "source": "accessibility-review",
+      "target": "browserwing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: accessibility, navigation"
+    },
+    {
+      "source": "browser-skill",
+      "target": "browserwing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, through, click"
+    },
+    {
+      "source": "browserwing",
+      "target": "clawbrowser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, navigation, screenshot"
+    },
+    {
+      "source": "browserwing",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: through, click"
+    },
+    {
+      "source": "browserwing",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, screenshot, browser"
+    },
+    {
+      "source": "browserwing",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "browserwing",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "agent-browser",
+      "target": "browserwing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "browserwing",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "browserwing",
+      "target": "skill_2053078982015520768",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, snapshot"
+    },
+    {
+      "source": "browserwing",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "browserwing",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "ch12893719743826428329324__skillhub",
+      "target": "gpt-image-2",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, gpt"
+    },
+    {
+      "source": "ch12893719743826428329324__skillhub",
+      "target": "gpt-image-2-5-studio__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: image, gpt"
+    },
+    {
+      "source": "ch12893719743826428329324__skillhub",
+      "target": "skill_2053082421296758784",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: banana, image, nano"
+    },
+    {
+      "source": "changelog-generator",
+      "target": "git-guardrails-claude-code",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: clean, git"
+    },
+    {
+      "source": "changelog-generator",
+      "target": "git-repo-recovery",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: commit, git"
+    },
+    {
+      "source": "code-review",
+      "target": "code-review-and-quality",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: change, code"
+    },
+    {
+      "source": "code-review",
+      "target": "git-guardrails-claude-code",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: branch, code"
+    },
+    {
+      "source": "code-review",
+      "target": "git-repo-recovery",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: commit, tag"
+    },
+    {
+      "source": "code-review",
+      "target": "git-workflow-and-versioning",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: change, code"
+    },
+    {
+      "source": "code-review",
+      "target": "github-skill-install",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: commit, tag"
+    },
+    {
+      "source": "code-review",
+      "target": "incremental-implementation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: change, code"
+    },
+    {
+      "source": "code-review",
+      "target": "mh-codebase-memory-mcp",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: code, repo"
+    },
+    {
+      "source": "code-review",
+      "target": "setup-pre-commit",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: commit, repo"
+    },
+    {
+      "source": "code-review-and-quality",
+      "target": "code-simplification",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: reviewing, code"
+    },
+    {
+      "source": "code-review-and-quality",
+      "target": "git-workflow-and-versioning",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: across, change, code"
+    },
+    {
+      "source": "code-review-and-quality",
+      "target": "incremental-implementation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: change, code"
+    },
+    {
+      "source": "check-deck",
+      "target": "code-review-and-quality",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: quality, across"
+    },
+    {
+      "source": "code-simplification",
+      "target": "observability-and-instrumentation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: behavior, code"
+    },
+    {
+      "source": "code-simplification",
+      "target": "test-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: behavior, changing, code"
+    },
+    {
+      "source": "codebase-design",
+      "target": "source-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: where, code"
+    },
+    {
+      "source": "codebase-design",
+      "target": "web-search-exa",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: code, deep"
+    },
+    {
+      "source": "diagnose",
+      "target": "diagnosing-bugs",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: performance, regression, hard"
+    },
+    {
+      "source": "doubt-driven-development",
+      "target": "ponytail-gain",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: speed, code"
+    },
+    {
+      "source": "doubt-driven-development",
+      "target": "product-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: decision, product"
+    },
+    {
+      "source": "doubt-driven-development",
+      "target": "source-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: decision, every, code"
+    },
+    {
+      "source": "doubt-driven-development",
+      "target": "zoom-out",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: unfamiliar, code"
+    },
+    {
+      "source": "education",
+      "target": "notebooklm-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: flashcard, quizze"
+    },
+    {
+      "source": "frontend-spec__skillhub",
+      "target": "web-artifacts-builder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: react, css"
+    },
+    {
+      "source": "frontend-dev",
+      "target": "fullstack-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: full-stack, frontend"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "git-repo-recovery",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: push, git"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "git-workflow-and-versioning",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: code, git"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "mh-omniRoute",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "mh-voicebox",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "skill_2053081406314844160",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: command, clean"
+    },
+    {
+      "source": "git-guardrails-claude-code",
+      "target": "zcode-configuration-guide",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: command, hook"
+    },
+    {
+      "source": "git-repo-recovery",
+      "target": "github-skill-install",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: commit, push, tag"
+    },
+    {
+      "source": "git-workflow-and-versioning",
+      "target": "incremental-implementation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: change, code"
+    },
+    {
+      "source": "git-workflow-and-versioning",
+      "target": "resolving-merge-conflicts",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: conflict, git"
+    },
+    {
+      "source": "git-workflow-and-versioning",
+      "target": "skill_2053081519859650560",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structure, git"
+    },
+    {
+      "source": "cim-builder",
+      "target": "git-workflow-and-versioning",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: structure, organize"
+    },
+    {
+      "source": "email-skill",
+      "target": "git-workflow-and-versioning",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: organize, across"
+    },
+    {
+      "source": "github-skill-install",
+      "target": "request-refactor-plan",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: commit, github"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "impeccable",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, frontend"
+    },
+    {
+      "source": "impeccable",
+      "target": "pi-web-ui",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: component, artifact"
+    },
+    {
+      "source": "impeccable",
+      "target": "web-artifacts-builder",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: artifact, frontend"
+    },
+    {
+      "source": "incremental-implementation",
+      "target": "test-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: about, code"
+    },
+    {
+      "source": "accessibility-review",
+      "target": "ios-application-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: accessibility, navigation"
+    },
+    {
+      "source": "mcp-builder",
+      "target": "pi-pods",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interact, llm"
+    },
+    {
+      "source": "memory-manager-v2__skillhub",
+      "target": "openclaw-assets-to-workbuddy",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "memory-manager-v2__skillhub",
+      "target": "workbuddy-asset-migration",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "memory-manager-v2__skillhub",
+      "target": "workbuddy-migration-assistant",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "memory-manager-v2__skillhub",
+      "target": "workbuddy-tdai-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "mh-omniRoute",
+      "target": "mh-voicebox",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: claude, code"
+    },
+    {
+      "source": "multi-search-engine__skillhub",
+      "target": "skill_2053082413554933760",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: engine, global, multi"
+    },
+    {
+      "source": "observability-and-instrumentation",
+      "target": "test-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: behavior, code"
+    },
+    {
+      "source": "ponytail-audit",
+      "target": "ponytail-review",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: over-engineering, ponytail-review, delete"
+    },
+    {
+      "source": "data-context-extractor",
+      "target": "ponytail-gain",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: trigger, mode"
+    },
+    {
+      "source": "ponytail-review",
+      "target": "source-driven-development",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: library, code"
+    },
+    {
+      "source": "imap-smtp-email",
+      "target": "qq-email",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: imap, send, smtp"
+    },
+    {
+      "source": "porteden-email",
+      "target": "qq-email",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: forward, send"
+    },
+    {
+      "source": "qq-email",
+      "target": "skill_2053082087495782400",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: forward, imap, smtp"
+    },
+    {
+      "source": "browser-skill",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, click, fill"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser, form"
+    },
+    {
+      "source": "opencli-browser",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: click, fill, form"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, screenshot, interact"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser, form"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: navigate, browser, website"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, navigate, browser"
+    },
+    {
+      "source": "agent-browser",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, interact, navigate"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, interact, navigate"
+    },
+    {
+      "source": "browser-cash",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, form"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "gui-automation",
+      "target": "qqbrowser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, interact, button"
+    },
+    {
+      "source": "skill_2053081406314844160",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, command"
+    },
+    {
+      "source": "skill_2053078982015520768",
+      "target": "skill_2053081406314844160",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: openclaw, command"
+    },
+    {
+      "source": "journal-entry",
+      "target": "talking-avatar-video",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: recording, prepare"
+    },
+    {
+      "source": "client-review",
+      "target": "talking-avatar-video",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: prepare, talking"
+    },
+    {
+      "source": "openclaw-assets-to-workbuddy",
+      "target": "wechat-clawbot-push",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, openclaw"
+    },
+    {
+      "source": "token-efficient-task-router",
+      "target": "wechat-clawbot-push",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, openclaw"
+    },
+    {
+      "source": "ux-copy",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: wording, copy"
+    },
+    {
+      "source": "cn-ecommerce-search",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chinese, product"
+    },
+    {
+      "source": "lynse-cli",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chinese, english, product"
+    },
+    {
+      "source": "content-factory",
+      "target": "write",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: social, post"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "gui-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: layout, visual"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "frontend-dev",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: frontend, visual"
+    },
+    {
+      "source": "data-analysis-workflows",
+      "target": "data-visualization",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: visualization, dataset"
+    },
+    {
+      "source": "deal-tracker",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: milestone, maintain, track"
+    },
+    {
+      "source": "client-review",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: portfolio, point"
+    },
+    {
+      "source": "stock-analysis",
+      "target": "thesis-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: portfolio, watchlist"
+    },
+    {
+      "source": "finance-workflows",
+      "target": "journal-entry",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: journal, entrie"
+    },
+    {
+      "source": "check-deck",
+      "target": "notebooklm-studio",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, deck"
+    },
+    {
+      "source": "check-deck",
+      "target": "flyai",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: language, across"
+    },
+    {
+      "source": "3-statements",
+      "target": "check-model",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: financial, balance, sheet"
+    },
+    {
+      "source": "dd-checklist",
+      "target": "deal-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: statu, track"
+    },
+    {
+      "source": "client-review",
+      "target": "deal-tracker",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: action, item"
+    },
+    {
+      "source": "fixed-income-portfolio",
+      "target": "option-vol-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: analyzing, pricing"
+    },
+    {
+      "source": "dd-checklist",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: target, cover"
+    },
+    {
+      "source": "frontend-dev",
+      "target": "video-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: animation, visual"
+    },
+    {
+      "source": "environment-setup",
+      "target": "video-generator",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: environment, remotion"
+    },
+    {
+      "source": "browser-skill",
+      "target": "clawbrowser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, through, form"
+    },
+    {
+      "source": "browser-skill",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: logged-in, through, click"
+    },
+    {
+      "source": "browser-skill",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, browser, form"
+    },
+    {
+      "source": "browser-skill",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, browser, fill"
+    },
+    {
+      "source": "browser-skill",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, browser, fill"
+    },
+    {
+      "source": "3-statements",
+      "target": "browser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, flow"
+    },
+    {
+      "source": "agent-browser",
+      "target": "browser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, browser, fill"
+    },
+    {
+      "source": "browser-skill",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, browser, fill"
+    },
+    {
+      "source": "browser-cash",
+      "target": "browser-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, form"
+    },
+    {
+      "source": "browser-skill",
+      "target": "gui-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, fill, flow"
+    },
+    {
+      "source": "browser-testing-with-devtools",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: inspect, chrome, real"
+    },
+    {
+      "source": "browser-cash",
+      "target": "browser-testing-with-devtools",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, real"
+    },
+    {
+      "source": "browser-testing-with-devtools",
+      "target": "computer-use",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: anything, browser"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: through, drive, form"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: playwright, screenshot, browser"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, form"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "agent-browser",
+      "target": "clawbrowser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, browser"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: playwright-cli, interaction, screenshot"
+    },
+    {
+      "source": "browser-cash",
+      "target": "clawbrowser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, session, form"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, session"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: playwright, screenshot, browser"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "gui-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, form"
+    },
+    {
+      "source": "cn-ecommerce-search",
+      "target": "lynse-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chinese, product"
+    },
+    {
+      "source": "headless-visual-verify",
+      "target": "tencent-novnc-chromium-cdp",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chrome, edge"
+    },
+    {
+      "source": "excalidraw-diagram",
+      "target": "mermaid-diagram",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: architecture, flowchart, diagram"
+    },
+    {
+      "source": "notebooklm-studio",
+      "target": "skill_2053082253572640768",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: slide, table"
+    },
+    {
+      "source": "opencli-browser",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, form"
+    },
+    {
+      "source": "opencli-browser",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, form"
+    },
+    {
+      "source": "opencli-browser",
+      "target": "tencent-novnc-chromium-cdp",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chrome, window"
+    },
+    {
+      "source": "3-statements",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, flow"
+    },
+    {
+      "source": "agent-browser",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, form"
+    },
+    {
+      "source": "opencli-browser",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, form"
+    },
+    {
+      "source": "browser-cash",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: form, real"
+    },
+    {
+      "source": "gui-automation",
+      "target": "opencli-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, flow, form"
+    },
+    {
+      "source": "openclaw-assets-to-workbuddy",
+      "target": "pi-mom",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workspace, bot"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: navigate, browser, website"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, navigate, browser"
+    },
+    {
+      "source": "agent-browser",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, interact, navigate"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, interact, navigate"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, browser"
+    },
+    {
+      "source": "playwright-browser-automation",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: playwright, screenshot, browser"
+    },
+    {
+      "source": "gui-automation",
+      "target": "playwright-browser-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, interact"
+    },
+    {
+      "source": "skill_2053081792154468352",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, browser, form"
+    },
+    {
+      "source": "skill_2053081792154468352",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, automate"
+    },
+    {
+      "source": "agent-browser",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, automate"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, automate"
+    },
+    {
+      "source": "browser-cash",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, filling, form"
+    },
+    {
+      "source": "skill_2053081792154468352",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "gui-automation",
+      "target": "skill_2053081792154468352",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, automate, form"
+    },
+    {
+      "source": "smooth-browser",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, navigate, browser"
+    },
+    {
+      "source": "agent-browser",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, navigate, browser"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, navigate, browser"
+    },
+    {
+      "source": "browser-cash",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, form"
+    },
+    {
+      "source": "gui-automation",
+      "target": "smooth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automate, fill, form"
+    },
+    {
+      "source": "agent-browser",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, automate"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, automate"
+    },
+    {
+      "source": "browser-cash",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, form"
+    },
+    {
+      "source": "stagehand-browser-cli",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "gui-automation",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, automate, fill"
+    },
+    {
+      "source": "flyai",
+      "target": "stagehand-browser-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: language, natural"
+    },
+    {
+      "source": "wechat-cover-designer",
+      "target": "wechat-draft-push",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: article, wechat"
+    },
+    {
+      "source": "data-analysis-workflows",
+      "target": "sql-queries",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: querie, sql"
+    },
+    {
+      "source": "3-statements",
+      "target": "reconciliation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: statement, balance"
+    },
+    {
+      "source": "finance-workflows",
+      "target": "reconciliation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: reconciliation, statement"
+    },
+    {
+      "source": "neodata-financial-search",
+      "target": "trading-analysis",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: neodata-financial-search, neodata"
+    },
+    {
+      "source": "westock-data",
+      "target": "westock-screener",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: westock-data, etf"
+    },
+    {
+      "source": "westock-data",
+      "target": "westockdata",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: routing-guid, etf"
+    },
+    {
+      "source": "westock-screener",
+      "target": "westock-tool",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: macd, etf, top"
+    },
+    {
+      "source": "3-statements",
+      "target": "gui-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: fill, flow"
+    },
+    {
+      "source": "3-statements",
+      "target": "finance-workflows",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: statement, income"
+    },
+    {
+      "source": "agent-browser",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: interaction, screenshot, automate"
+    },
+    {
+      "source": "agent-browser",
+      "target": "browser-cash",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, filling, form"
+    },
+    {
+      "source": "agent-browser",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "agent-browser",
+      "target": "gui-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, automate, interact"
+    },
+    {
+      "source": "browser-cash",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: browser, filling, form"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "webapp-testing",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, browser"
+    },
+    {
+      "source": "gui-automation",
+      "target": "playwright-cli",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: screenshot, automate, interact"
+    },
+    {
+      "source": "browser-cash",
+      "target": "playwright-scraper-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: protection, anti-bot, scraping"
+    },
+    {
+      "source": "browser-cash",
+      "target": "stealth-browser",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: cloudflare, browser, session"
+    },
+    {
+      "source": "image-compressor",
+      "target": "image-upscale__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: jpg, png"
+    },
+    {
+      "source": "infographic-html-poster",
+      "target": "wechat-wenyan-publish",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: png, svg"
+    },
+    {
+      "source": "image-well",
+      "target": "media-downloader",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: download, image"
+    },
+    {
+      "source": "stealth-browser",
+      "target": "workbuddy-migration-assistant",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: automation, session"
+    },
+    {
+      "source": "frontend-dev",
+      "target": "gui-automation",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: visually, visual"
+    },
+    {
+      "source": "cognee-memory",
+      "target": "graphiti-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: knowledge-graph, apache-2.0, entity"
+    },
+    {
+      "source": "cognee-memory",
+      "target": "mem0-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: knowledge-graph, apache-2.0, memory"
+    },
+    {
+      "source": "cognee-memory",
+      "target": "memory-stack",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: cognee, memory"
+    },
+    {
+      "source": "graphiti-memory",
+      "target": "mem0-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: knowledge-graph, apache-2.0, memory"
+    },
+    {
+      "source": "graphiti-memory",
+      "target": "memory-stack",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: graphiti, memory"
+    },
+    {
+      "source": "mem0-memory",
+      "target": "memory-stack",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: long-term, memory, mem0"
+    },
+    {
+      "source": "mem0-memory",
+      "target": "memos",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: memory, memo"
+    },
+    {
+      "source": "memory-stack",
+      "target": "memos",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: memory, llm"
+    },
+    {
+      "source": "openclaw-assets-to-workbuddy",
+      "target": "workbuddy-asset-migration",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "openclaw-assets-to-workbuddy",
+      "target": "workbuddy-migration-assistant",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "openclaw-assets-to-workbuddy",
+      "target": "workbuddy-tdai-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "openclaw-assets-to-workbuddy",
+      "target": "token-efficient-task-router",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, openclaw"
+    },
+    {
+      "source": "workbuddy-asset-migration",
+      "target": "workbuddy-migration-assistant",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: connector, workbuddy, memory"
+    },
+    {
+      "source": "workbuddy-asset-migration",
+      "target": "workbuddy-tdai-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "workbuddy-migration-assistant",
+      "target": "workbuddy-tdai-memory",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: workbuddy, memory"
+    },
+    {
+      "source": "content-factory",
+      "target": "yourself-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: persona, social"
+    },
+    {
+      "source": "wacli",
+      "target": "yourself-skill",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: history, chat"
+    },
+    {
+      "source": "cad-editor__skillhub",
+      "target": "dxf-engineering-skill__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: cad, dxf"
+    },
+    {
+      "source": "email-daily-summary",
+      "target": "foxmail-ai-mail-assistant",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: outlook, mail"
+    },
+    {
+      "source": "pi-cli-workspace",
+      "target": "zcode-configuration-guide",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: agents.md, command"
+    },
+    {
+      "source": "arxiv-watcher",
+      "target": "research",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: research, topic"
+    },
+    {
+      "source": "diagnosing-hooks",
+      "target": "zcode-configuration-guide",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: zcode, hook"
+    },
+    {
+      "source": "email-daily-summary",
+      "target": "porteden-email",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: outlook, gmail"
+    },
+    {
+      "source": "imap-smtp-email",
+      "target": "skill_2053082087495782400",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: imap, smtp"
+    },
+    {
+      "source": "porteden-email",
+      "target": "skill_2053078990332825600",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: inbox, send"
+    },
+    {
+      "source": "apple-notes",
+      "target": "porteden-email",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: delete, view"
+    },
+    {
+      "source": "porteden-email",
+      "target": "skill_2053082087495782400",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: forward, reply"
+    },
+    {
+      "source": "arxiv-watcher",
+      "target": "paper-quick-reader",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: summarize, summary, paper"
+    },
+    {
+      "source": "flights",
+      "target": "flyai",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: booking, flight"
+    },
+    {
+      "source": "flights",
+      "target": "skill_2053082413554933760",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: filter, time"
+    },
+    {
+      "source": "gpt-image-2",
+      "target": "gpt-image-2-5-studio__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: chatgpt, image, gpt"
+    },
+    {
+      "source": "gpt-image-2",
+      "target": "t-h-i-n-g-o-2026__skillhub",
+      "kind": "co_anchor",
+      "evidence": "共享锚点: openai, image"
+    },
+    {
+      "source": "browser-act",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.15)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "playwright-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "diagnose",
+      "target": "diagnosing-bugs",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "grill-me",
+      "target": "grill-with-docs",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "kdocs",
+      "target": "kdocs-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "skills-constitution",
+      "target": "skills-constitution.bak-20260915-142514",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "tencent-docs",
+      "target": "tencent-docs__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "theme-factory",
+      "target": "to-tickets",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "theme-factory",
+      "target": "writing-great-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "unclecheng-reduce-ai-perception",
+      "target": "unclecheng-reduce-ai-perception-v2__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "westock-data",
+      "target": "westockdata",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 1.00)"
+    },
+    {
+      "source": "dknowc-official-doc-writer",
+      "target": "dknowc-official-doc-writer-skillhub__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.98)"
+    },
+    {
+      "source": "tencent-docs",
+      "target": "tencent-saas-docs",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.96)"
+    },
+    {
+      "source": "tencent-docs__skillhub",
+      "target": "tencent-saas-docs",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.96)"
+    },
+    {
+      "source": "android-dev",
+      "target": "ios-dev",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.93)"
+    },
+    {
+      "source": "skill_2053081792154468352",
+      "target": "stagehand-browser-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.92)"
+    },
+    {
+      "source": "gmail",
+      "target": "teach",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.92)"
+    },
+    {
+      "source": "theme-factory",
+      "target": "to-spec",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.91)"
+    },
+    {
+      "source": "diagnosing-commands",
+      "target": "diagnosing-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.85)"
+    },
+    {
+      "source": "skill_2053081792154468352",
+      "target": "smooth-browser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.85)"
+    },
+    {
+      "source": "skill_2053081792154468352",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.85)"
+    },
+    {
+      "source": "saw-st-v8",
+      "target": "saw-st-v8-realign",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.84)"
+    },
+    {
+      "source": "saw-st-v8-realign",
+      "target": "saw-st-v8-reanalyze-lasso",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.83)"
+    },
+    {
+      "source": "browser-act",
+      "target": "stagehand-browser-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.83)"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "stagehand-browser-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.80)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "stagehand-browser-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.79)"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "stagehand-browser-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.79)"
+    },
+    {
+      "source": "minimax-docx",
+      "target": "officecli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.79)"
+    },
+    {
+      "source": "ai-shifu-course-creator",
+      "target": "writing-great-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.78)"
+    },
+    {
+      "source": "anthropic-skill-creator",
+      "target": "writing-great-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.78)"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "handoff",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.78)"
+    },
+    {
+      "source": "ponytail-help",
+      "target": "writing-great-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.78)"
+    },
+    {
+      "source": "ppt-design",
+      "target": "ppt-template",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.78)"
+    },
+    {
+      "source": "lesson-plan-to-ppt",
+      "target": "ppt-design",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "clawbrowser",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "computer-use",
+      "target": "qqbrowser-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "find-skills",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "gmail",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "make-skill",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.77)"
+    },
+    {
+      "source": "browser-act",
+      "target": "oracle",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.76)"
+    },
+    {
+      "source": "docx",
+      "target": "officecli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.76)"
+    },
+    {
+      "source": "saw-st-v8",
+      "target": "saw-st-v8-reanalyze-lasso",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.75)"
+    },
+    {
+      "source": "skill-creator",
+      "target": "teach",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.75)"
+    },
+    {
+      "source": "lesson-plan-to-ppt",
+      "target": "ppt-template",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "browser-act",
+      "target": "browserwing",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "browser-act",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "qqbrowser-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "browser-act",
+      "target": "playwright-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "browser-act",
+      "target": "skill_2053081406314844160",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "qqbrowser-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.74)"
+    },
+    {
+      "source": "gmail",
+      "target": "trello",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.73)"
+    },
+    {
+      "source": "pi-customization",
+      "target": "to-tickets",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.73)"
+    },
+    {
+      "source": "restore-legacy-sessions",
+      "target": "to-tickets",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.73)"
+    },
+    {
+      "source": "theme-factory",
+      "target": "trello",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.73)"
+    },
+    {
+      "source": "theme-factory",
+      "target": "ubiquitous-language",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.73)"
+    },
+    {
+      "source": "westock-screener",
+      "target": "westock-tool",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.73)"
+    },
+    {
+      "source": "datapack-builder",
+      "target": "email-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.71)"
+    },
+    {
+      "source": "markitdown",
+      "target": "markitdown-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.71)"
+    },
+    {
+      "source": "tencent-agent-storage",
+      "target": "tencent-yuanbao-standard-search",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.71)"
+    },
+    {
+      "source": "pi-extension-authoring",
+      "target": "skill_2052764011421208576",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.70)"
+    },
+    {
+      "source": "qa",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.70)"
+    },
+    {
+      "source": "browser-act",
+      "target": "computer-use",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.69)"
+    },
+    {
+      "source": "datapack-builder",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.69)"
+    },
+    {
+      "source": "news-summary",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.69)"
+    },
+    {
+      "source": "research-report-builder",
+      "target": "skill-creator",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.69)"
+    },
+    {
+      "source": "browser-act",
+      "target": "clawbrowser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.69)"
+    },
+    {
+      "source": "word-doc-generator",
+      "target": "xlsx-generator",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.69)"
+    },
+    {
+      "source": "cloudbase",
+      "target": "wechat-miniprogram",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.68)"
+    },
+    {
+      "source": "diagnosing-bugs",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.68)"
+    },
+    {
+      "source": "browser-act",
+      "target": "skill_2053078982015520768",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.68)"
+    },
+    {
+      "source": "project-weekly-report",
+      "target": "weekly-report",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.68)"
+    },
+    {
+      "source": "macro-research",
+      "target": "market-overview",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "anthropic-skill-creator",
+      "target": "teach",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "claude-handoff",
+      "target": "handoff",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "code-review",
+      "target": "resolving-merge-conflicts",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "doc-coauthoring",
+      "target": "teach",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "handoff",
+      "target": "ic-memo",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "handoff",
+      "target": "to-spec",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "industry-chain",
+      "target": "stock-logic-research",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "make-skill",
+      "target": "teach",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "product-management-workflows",
+      "target": "slides-maker__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "using-agent-skills",
+      "target": "writing-great-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.67)"
+    },
+    {
+      "source": "html-deploy",
+      "target": "shippage",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.66)"
+    },
+    {
+      "source": "oracle",
+      "target": "slides-maker__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.66)"
+    },
+    {
+      "source": "oracle",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.66)"
+    },
+    {
+      "source": "computer-use",
+      "target": "smooth-browser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "northbound-flow",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "ppt-craft-master__skillhub",
+      "target": "ppt-generator-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "cn-ecommerce-search",
+      "target": "tencent-yuanbao-standard-search",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "ppt-design",
+      "target": "product-design",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "tavily",
+      "target": "tencent-yuanbao-standard-search",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "tencent-yuanbao-standard-search",
+      "target": "web-search-exa",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.65)"
+    },
+    {
+      "source": "grilling",
+      "target": "idea-refine",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "valuation-framework",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "sector-comparison",
+      "target": "valuation-framework",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "claude-handoff",
+      "target": "using-agent-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "gantt-chart-generator",
+      "target": "sa-pro-workbench__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "make-skill",
+      "target": "to-spec",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "obsidian-vault",
+      "target": "tencent-agent-storage",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "pi-customization",
+      "target": "setup-matt-pocock-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "restore-legacy-sessions",
+      "target": "to-spec",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.64)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "institutional-holdings",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.63)"
+    },
+    {
+      "source": "diagnosing-plugins",
+      "target": "diagnosing-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.63)"
+    },
+    {
+      "source": "docx-xlsx-extractor",
+      "target": "pdf-image-text-extractor",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.63)"
+    },
+    {
+      "source": "macro-to-stock",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.63)"
+    },
+    {
+      "source": "minimax-xlsx",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.63)"
+    },
+    {
+      "source": "going-global",
+      "target": "risk-checkup",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.63)"
+    },
+    {
+      "source": "remotion-best-practices",
+      "target": "talking-avatar-video",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "remotion-best-practices",
+      "target": "video-generator",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "guizang-ppt-skill",
+      "target": "web-flip-ppt",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "style-rotation",
+      "target": "valuation-framework",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "fund-crowding",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "position-management",
+      "target": "risk-checkup",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "gpt-image-2",
+      "target": "gpt-image2-pro__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "gpt-image2-pro__skillhub",
+      "target": "t-h-i-n-g-o-2026__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "going-global",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "macro-to-stock",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "docx",
+      "target": "pdf",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "smooth-browser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "douyin-copy-extract",
+      "target": "hot-topic-content-maker__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "playwright-cli",
+      "target": "smooth-browser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "skill_2053081406314844160",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "going-global",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "agent-browser",
+      "target": "computer-use",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "ai-shifu-course-creator",
+      "target": "prompt-engineering-expert",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "ardot-design-assistant",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "ask-matt",
+      "target": "using-agent-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "bubble-detection",
+      "target": "fund-crowding",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "client-review",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "computer-use",
+      "target": "playwright-cli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "diagnosing-plugins",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "domain-modeling",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "internal-comms",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "minimax-xlsx",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "opencli-browser",
+      "target": "skill_2053081792154468352",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "prototype",
+      "target": "research-report-builder",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "research-report-builder",
+      "target": "tapd-openapi",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "research-report-builder",
+      "target": "the-entrepreneurship-handbook",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "research-report-builder",
+      "target": "using-agent-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.62)"
+    },
+    {
+      "source": "market-mainline",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "macro-research",
+      "target": "stock-deep-dive",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "find-skills",
+      "target": "using-agent-skills",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "company-quality",
+      "target": "stock-logic-research",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "sector-comparison",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "company-quality",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "browser-act",
+      "target": "smooth-browser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "qqbrowser-skill",
+      "target": "smooth-browser",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "financial-report",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "northbound-flow",
+      "target": "valuation-framework",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "docx",
+      "target": "md-to-pdf-cjk",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "minimax-docx",
+      "target": "qa",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.61)"
+    },
+    {
+      "source": "bubble-detection",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "fund-crowding",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "market-mainline",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "fund-crowding",
+      "target": "risk-checkup",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "risk-checkup",
+      "target": "valuation-framework",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "diagnosing-commands",
+      "target": "diagnosing-plugins",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "ai-shifu-course-creator",
+      "target": "writing-beats",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "android-dev",
+      "target": "theme-factory",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "browser-act",
+      "target": "browser-skill",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "flutter-dev",
+      "target": "skill_2052764011421208576",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "goal-tracker",
+      "target": "habit-tracker",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "ios-dev",
+      "target": "theme-factory",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "pi-ai-library",
+      "target": "skill_2052764011421208576",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "financial-report",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "industry-chain",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "risk-checkup",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "company-quality",
+      "target": "dividend-returns",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.60)"
+    },
+    {
+      "source": "company-quality",
+      "target": "institutional-holdings",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "institutional-holdings",
+      "target": "stock-logic-research",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "institutional-holdings",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "going-global",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "fund-crowding",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "anthropic-pptx",
+      "target": "pitch-deck",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "obsidian-vault",
+      "target": "web-search-exa",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "fund-crowding",
+      "target": "institutional-holdings",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "financial-report",
+      "target": "macro-to-stock",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "financial-report",
+      "target": "valuation-framework",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "bubble-detection",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "going-global",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "macro-to-stock",
+      "target": "northbound-flow",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "ppt-template-creator",
+      "target": "slides-maker__skillhub",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "institutional-holdings",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "macro-to-stock",
+      "target": "style-rotation",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "market-mainline",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "northbound-flow",
+      "target": "sector-comparison",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "bubble-detection",
+      "target": "risk-checkup",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "dividend-returns",
+      "target": "risk-checkup",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "institutional-holdings",
+      "target": "risk-checkup",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "apple-notes",
+      "target": "tencent-agent-storage",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "minimax-xlsx",
+      "target": "officecli",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "officecli",
+      "target": "xlsx",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.59)"
+    },
+    {
+      "source": "going-global",
+      "target": "institutional-holdings",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.58)"
+    },
+    {
+      "source": "financial-report",
+      "target": "stock-logic-research",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.58)"
+    },
+    {
+      "source": "ai-shifu-course-creator",
+      "target": "teach",
+      "kind": "alternative",
+      "evidence": "同分类替代方案(描述重叠 0.58)"
+    }
+  ],
+  "clusters": {
+    "document": {
+      "members": [
+        "3-statements",
+        "anthropic-skill-creator",
+        "buyer-list",
+        "check-model",
+        "cim-builder",
+        "client-report",
+        "close-management",
+        "cloudflare",
+        "competitive-analysis",
+        "context-engineering",
+        "data-quality-assessment",
+        "datapack-builder",
+        "dcf-model",
+        "dd-meeting-prep",
+        "deal-screening",
+        "diagnosing-skills",
+        "docx",
+        "education",
+        "excel-formula-generator__skillhub",
+        "excel-sync-bitable__skillhub",
+        "feature-spec",
+        "finance-workflows",
+        "financial-plan",
+        "financial-statements",
+        "funding-digest",
+        "goal-tracker",
+        "gongwen-word",
+        "habit-tracker",
+        "ic-memo",
+        "idea-generation",
+        "journal-entry-prep",
+        "md-to-pdf-cjk",
+        "merger-model",
+        "metrics-tracking",
+        "minimax-docx",
+        "officecli",
+        "patent-disclosure-skill__skillhub",
+        "patent-disclosure-writer",
+        "pdf",
+        "portfolio-monitoring",
+        "portfolio-rebalance",
+        "pptx",
+        "process-letter",
+        "product-management-workflows",
+        "reconciliation",
+        "research-synthesis",
+        "restore-legacy-sessions",
+        "roadmap-management",
+        "scene-planner",
+        "sector-overview",
+        "skill_2053082253572640768",
+        "sprint-planning",
+        "tax-loss-harvesting",
+        "teaser",
+        "tutor-skills",
+        "user-research-synthesis",
+        "using-agent-skills",
+        "value-creation-plan",
+        "variance-analysis",
+        "wayfinder",
+        "wigolo",
+        "zh-md-to-docx"
+      ],
+      "size": 62
+    },
+    "component": {
+      "members": [
+        "accessibility-review",
+        "ardot-design-assistant",
+        "audit-support",
+        "brand-guidelines",
+        "canvas-design",
+        "ci-cd-and-automation",
+        "design-handoff",
+        "design-system",
+        "environment-setup",
+        "flutter-dev",
+        "frontend-design",
+        "frontend-dev",
+        "frontend-spec__skillhub",
+        "frontend-ui-engineering",
+        "impeccable",
+        "ios-application-dev",
+        "lucide-icons",
+        "minimax-pdf",
+        "modern-web-app",
+        "pi-customization",
+        "pi-pods",
+        "pi-tui",
+        "pi-web-ui",
+        "ponytail",
+        "poster",
+        "prototype",
+        "sox-testing",
+        "theme-factory",
+        "ui-design-guide__skillhub",
+        "ux-copy",
+        "video-generator",
+        "web-artifacts-builder",
+        "wechat-miniprogram"
+      ],
+      "size": 33
+    },
+    "code": {
+      "members": [
+        "agent-data-migration-recovery",
+        "agentmemory",
+        "andrej-karpathy-skills__skillhub",
+        "changelog-generator",
+        "code-review",
+        "code-review-and-quality",
+        "code-simplification",
+        "cognee-memory",
+        "diagnosing-commands",
+        "diagnosing-plugins",
+        "email-skill",
+        "git-guardrails-claude-code",
+        "git-repo-recovery",
+        "git-workflow-and-versioning",
+        "github-skill-install",
+        "graphiti-memory",
+        "incremental-implementation",
+        "mem0-memory",
+        "memory-stack",
+        "memos",
+        "mh-codebase-memory-mcp",
+        "mh-omniRoute",
+        "mh-voicebox",
+        "observability-and-instrumentation",
+        "pi-cli-workspace",
+        "pi-extension-authoring",
+        "pi-package-authoring",
+        "planning-and-task-breakdown",
+        "plugin-creator",
+        "resolving-merge-conflicts",
+        "security-and-hardening",
+        "setup-pre-commit",
+        "skill-creator",
+        "skill_2053081519859650560",
+        "skills-constitution",
+        "skills-constitution.bak-20260915-142514",
+        "spec-driven-development",
+        "test-driven-development",
+        "to-tickets",
+        "zcode-configuration-guide"
+      ],
+      "size": 40
+    },
+    "slide": {
+      "members": [
+        "anthropic-pptx",
+        "check-deck",
+        "create-ppt",
+        "flights",
+        "flyai",
+        "lbo-model",
+        "notebooklm-studio",
+        "pitch-deck",
+        "ppt-gen",
+        "slides-maker__skillhub",
+        "stakeholder-comms",
+        "strip-profile"
+      ],
+      "size": 12
+    },
+    "apple": {
+      "members": [
+        "apple-notes",
+        "apple-reminders",
+        "email-daily-summary",
+        "foxmail-ai-mail-assistant",
+        "gmail",
+        "porteden-email",
+        "skill_2053078990332825600"
+      ],
+      "size": 7
+    },
+    "xlsx": {
+      "members": [
+        "biaoshu-writer-pro__skillhub",
+        "contract-review-v2",
+        "doc-compare",
+        "excel-auto-zh",
+        "excel-generation",
+        "excel-handler",
+        "excel-processing",
+        "excel-xlsx",
+        "gongwen-format",
+        "gongwenformat-pro",
+        "gov-doc-typeset",
+        "html-ppt-skill__skillhub",
+        "image-to-xlsx__skillhub",
+        "image-viewer",
+        "jyw-images-to-docx__skillhub",
+        "markitdown",
+        "markitdown-skill",
+        "mh-mineru",
+        "mh-officecli",
+        "minimax-xlsx",
+        "paperless-business-system-from-files__skillhub",
+        "pdfkit-py",
+        "ppt-polish",
+        "ppt-win32com-editor__skillhub",
+        "pptx-generator",
+        "screen-automation",
+        "smart-charts__skillhub",
+        "tencent-pptx",
+        "video-to-ppt",
+        "windows-app-lag-diagnosis",
+        "word-doc-generator",
+        "wps-office-suite__skillhub",
+        "wpscli",
+        "xlsx",
+        "xlsx-generator",
+        "zagens-office"
+      ],
+      "size": 36
+    },
+    "topic": {
+      "members": [
+        "arxiv-watcher",
+        "paper-quick-reader",
+        "research"
+      ],
+      "size": 3
+    },
+    "analyzing": {
+      "members": [
+        "bond-futures-basis",
+        "bond-relative-value",
+        "fixed-income-portfolio",
+        "fx-carry-trade",
+        "macro-rates-monitor",
+        "option-vol-analysis",
+        "statistical-analysis",
+        "stock-analysis",
+        "swap-curve-strategy"
+      ],
+      "size": 9
+    },
+    "voice": {
+      "members": [
+        "brand-voice",
+        "novel-writer"
+      ],
+      "size": 2
+    },
+    "browser": {
+      "members": [
+        "agent-browser",
+        "agent-browser__skillhub",
+        "browser-act",
+        "browser-cash",
+        "browser-skill",
+        "browser-testing-with-devtools",
+        "browserwing",
+        "clawbrowser",
+        "computer-use",
+        "gui-automation",
+        "opencli-browser",
+        "playwright-browser-automation",
+        "playwright-cli",
+        "playwright-scraper-skill",
+        "qa",
+        "qqbrowser-skill",
+        "skill_2053078982015520768",
+        "skill_2053081406314844160",
+        "skill_2053081792154468352",
+        "skill_2053082332061896704",
+        "smooth-browser",
+        "stagehand-browser-cli",
+        "stealth-browser",
+        "tmux",
+        "web-scraper",
+        "webapp-testing",
+        "wechat-wcdb-local-extract",
+        "win-file-lock-release"
+      ],
+      "size": 28
+    },
+    "autocad": {
+      "members": [
+        "cad-editor__skillhub",
+        "cad-quantity-takeoff",
+        "dxf-engineering-skill__skillhub",
+        "tmagent-cad"
+      ],
+      "size": 4
+    },
+    "product": {
+      "members": [
+        "catalyst-calendar",
+        "cn-ecommerce-search",
+        "content-factory",
+        "deprecation-and-migration",
+        "doc-coauthoring",
+        "documentation-and-adrs",
+        "domain-modeling",
+        "doubt-driven-development",
+        "earnings-analysis",
+        "earnings-preview",
+        "earnings-preview-beta",
+        "ecommerce-listing-image-set",
+        "equity-research",
+        "idea-refine",
+        "image-well",
+        "imsg",
+        "initiating-coverage",
+        "interview-me",
+        "lynse-cli",
+        "media-downloader",
+        "model-update",
+        "morning-note",
+        "ponytail-review",
+        "poster-design-studio",
+        "product-brainstorming",
+        "product-review",
+        "skill_2053082264957227008",
+        "slack-gif-creator",
+        "source-driven-development",
+        "tavily",
+        "ubiquitous-language",
+        "wacli",
+        "write",
+        "yourself-skill",
+        "zoom-out"
+      ],
+      "size": 35
+    },
+    "google": {
+      "members": [
+        "caldav-calendar",
+        "gog"
+      ],
+      "size": 2
+    },
+    "action": {
+      "members": [
+        "client-review",
+        "deal-tracker",
+        "journal-entry",
+        "meeting-minutes-template",
+        "meeting-notes-assistant__skillhub",
+        "talking-avatar-video"
+      ],
+      "size": 6
+    },
+    "module": {
+      "members": [
+        "api-and-interface-design",
+        "codebase-design",
+        "data-exploration",
+        "design-an-interface",
+        "improve-codebase-architecture",
+        "ponytail-audit",
+        "ponytail-debt",
+        "web-search-exa"
+      ],
+      "size": 8
+    },
+    "content-engine": {
+      "members": [
+        "content-engine",
+        "crosspost"
+      ],
+      "size": 2
+    },
+    "visualization": {
+      "members": [
+        "data-analysis-workflows",
+        "data-visualization",
+        "sql-queries"
+      ],
+      "size": 3
+    },
+    "trigger": {
+      "members": [
+        "data-context-extractor",
+        "ponytail-gain",
+        "ponytail-help"
+      ],
+      "size": 3
+    },
+    "skill-vetter": {
+      "members": [
+        "dd-checklist",
+        "skill-vetter"
+      ],
+      "size": 2
+    },
+    "doc-typeset": {
+      "members": [
+        "design-token",
+        "doc-typeset",
+        "html-review"
+      ],
+      "size": 3
+    },
+    "regression": {
+      "members": [
+        "diagnose",
+        "diagnosing-bugs",
+        "fullstack-dev",
+        "init-cbc-sdk-web",
+        "multi-search-engine__skillhub",
+        "performance-optimization",
+        "skill_2053082413554933760"
+      ],
+      "size": 7
+    },
+    "diagram": {
+      "members": [
+        "architecture-diagram",
+        "diagram-builder__skillhub",
+        "drawio",
+        "excalidraw-diagram",
+        "infographic-html-poster",
+        "mermaid-diagram",
+        "teachany",
+        "teachany-pbl",
+        "wechat-wenyan-publish"
+      ],
+      "size": 9
+    },
+    "tencent": {
+      "members": [
+        "edgeone",
+        "edgeone-pages-deploy",
+        "html-deploy",
+        "netlify-deploy",
+        "returns-analysis",
+        "shippage",
+        "tencent-agent-storage",
+        "tencentcloud-infra__skillhub"
+      ],
+      "size": 8
+    },
+    "interact": {
+      "members": [
+        "cnb-skill",
+        "github"
+      ],
+      "size": 2
+    },
+    "image": {
+      "members": [
+        "ch12893719743826428329324__skillhub",
+        "gpt-image-2",
+        "gpt-image-2-5-studio__skillhub",
+        "skill_2053082421296758784",
+        "t-h-i-n-g-o-2026__skillhub"
+      ],
+      "size": 5
+    },
+    "interview": {
+      "members": [
+        "batch-grill-me",
+        "design-critique",
+        "grill-me",
+        "grill-with-docs",
+        "request-refactor-plan",
+        "user-research"
+      ],
+      "size": 6
+    },
+    "swiss": {
+      "members": [
+        "guizang-ppt-skill",
+        "web-flip-ppt"
+      ],
+      "size": 2
+    },
+    "about": {
+      "members": [
+        "grilling",
+        "loop-me",
+        "neodata-financial-search",
+        "ppt-implement",
+        "teach",
+        "the-entrepreneurship-handbook",
+        "trading-analysis"
+      ],
+      "size": 7
+    },
+    "jpeg": {
+      "members": [
+        "hsz-ai-bank-receipt-recognition",
+        "image-compressor",
+        "image-shrink-for-upload",
+        "image-upscale__skillhub",
+        "pdf-to-images"
+      ],
+      "size": 5
+    },
+    "imap": {
+      "members": [
+        "imap-smtp-email",
+        "qq-email",
+        "skill_2053082087495782400"
+      ],
+      "size": 3
+    },
+    "inspect": {
+      "members": [
+        "android-dev",
+        "ios-dev"
+      ],
+      "size": 2
+    },
+    "www.kdocs.cn": {
+      "members": [
+        "kdocs",
+        "kdocs-skill"
+      ],
+      "size": 2
+    },
+    "through": {
+      "members": [
+        "api-gateway",
+        "mcp-builder",
+        "triage"
+      ],
+      "size": 3
+    },
+    "event": {
+      "members": [
+        "pi-agent-embedding",
+        "pi-ai-library",
+        "pi-mom",
+        "pi-rpc-sdk"
+      ],
+      "size": 4
+    },
+    "feed": {
+      "members": [
+        "blogwatcher",
+        "news-summary"
+      ],
+      "size": 2
+    },
+    "vault": {
+      "members": [
+        "obsidian",
+        "obsidian-vault"
+      ],
+      "size": 2
+    },
+    "workbuddy": {
+      "members": [
+        "memory-manager-v2__skillhub",
+        "openclaw-assets-to-workbuddy",
+        "token-efficient-task-router",
+        "wechat-clawbot-push",
+        "workbuddy-asset-migration",
+        "workbuddy-meeting-assistant",
+        "workbuddy-migration-assistant",
+        "workbuddy-tdai-memory"
+      ],
+      "size": 8
+    },
+    "cloud": {
+      "members": [
+        "saw-st-v8",
+        "saw-st-v8-realign",
+        "saw-st-v8-reanalyze-lasso"
+      ],
+      "size": 3
+    },
+    "seedance": {
+      "members": [
+        "seedance-prompt-expert__skillhub",
+        "seedance2-new__skillhub"
+      ],
+      "size": 2
+    },
+    "repo": {
+      "members": [
+        "make-skill",
+        "setup-ts-deep-modules",
+        "skill_2053082035544330240",
+        "skill_2053082035554123776"
+      ],
+      "size": 4
+    },
+    "edge": {
+      "members": [
+        "headless-visual-verify",
+        "html-to-pdf-edge-headless",
+        "tencent-novnc-chromium-cdp"
+      ],
+      "size": 3
+    },
+    "hosting": {
+      "members": [
+        "web-deploy",
+        "web-deploy-github"
+      ],
+      "size": 2
+    },
+    "article": {
+      "members": [
+        "caveman",
+        "wechat-cover-designer",
+        "wechat-draft-push"
+      ],
+      "size": 3
+    },
+    "routing-guid": {
+      "members": [
+        "westock-data",
+        "westock-screener",
+        "westock-tool",
+        "westockdata"
+      ],
+      "size": 4
+    },
+    "material": {
+      "members": [
+        "writing-beats",
+        "writing-shape"
+      ],
+      "size": 2
+    }
+  }
+}
